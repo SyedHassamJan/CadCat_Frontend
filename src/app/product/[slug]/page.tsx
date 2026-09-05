@@ -46,6 +46,14 @@ export default function ProductDetailPage() {
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const [paddleReady, setPaddleReady] = useState(false);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
@@ -231,8 +239,8 @@ export default function ProductDetailPage() {
         </div>
       </header>
 
-      <main style={{ maxWidth: '1280px', margin: '0 auto', padding: '32px 24px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '28px', alignItems: 'start' }}>
+      <main style={{ maxWidth: '1280px', margin: '0 auto', padding: isMobile ? '16px' : '32px 24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 340px', gap: isMobile ? '16px' : '28px', alignItems: 'start' }}>
 
           {/* ─── Left: Image gallery + Description ─────────────────────────── */}
           <div>
@@ -294,82 +302,105 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* ─── Right: Info Sidebar ─────────────────────────────────────────── */}
-          <aside style={{ position: 'sticky', top: '80px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          {/* ─── Right: Info Sidebar (shown first on mobile) ─────────────────── */}
+          {isMobile && (
+            <aside style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {/* Price + CTA card (mobile) */}
+              <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '18px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <h1 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', lineHeight: 1.3, marginBottom: '12px' }}>{product.title}</h1>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+                  <div>
+                    {product.isFree ? (
+                      <span style={{ fontSize: '24px', fontWeight: 800, color: '#10b981' }}>Free</span>
+                    ) : (
+                      <span style={{ fontSize: '28px', fontWeight: 800, color: '#0f172a' }}>${Number(product.price).toFixed(2)} <span style={{ fontSize: '13px', color: '#94a3b8' }}>{product.currency || 'USD'}</span></span>
+                    )}
+                  </div>
+                  {product.isFree ? (
+                    <button onClick={handleFreeDownload} disabled={!!downloadMsg} style={{ padding: '11px 20px', background: 'linear-gradient(135deg,#10b981,#059669)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '14px', cursor: downloadMsg ? 'not-allowed' : 'pointer', flexShrink: 0 }}>
+                      {downloadMsg || '⬇ Free Download'}
+                    </button>
+                  ) : (
+                    <button onClick={openCheckout} disabled={buying} style={{ padding: '11px 20px', background: 'linear-gradient(135deg,#2563eb,#1d4ed8)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '14px', cursor: 'pointer', flexShrink: 0 }}>
+                      {buying ? 'Opening…' : `🛒 Buy Now`}
+                    </button>
+                  )}
+                </div>
+                {paddleError && <div style={{ background: '#fee2e2', border: '1px solid #fca5a5', borderRadius: '8px', padding: '8px 10px', color: '#991b1b', fontSize: '12px', marginTop: '10px' }}>{paddleError}</div>}
+              </div>
+            </aside>
+          )}
 
-            {/* Price + CTA card */}
-            <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '22px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-              <h1 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', lineHeight: 1.3, marginBottom: '16px' }}>
-                {product.title}
-              </h1>
+          {/* ─── Right: Info Sidebar (desktop only) ─────────────────────────── */}
+          {!isMobile && (
+            <aside style={{ position: 'sticky', top: '80px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
 
-              {/* Price Display */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+              {/* Price + CTA card */}
+              <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '22px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <h1 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', lineHeight: 1.3, marginBottom: '16px' }}>
+                  {product.title}
+                </h1>
+
+                {/* Price Display */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                  {product.isFree ? (
+                    <span style={{ fontSize: '26px', fontWeight: 800, color: '#10b981' }}>Free</span>
+                  ) : (
+                    <>
+                      <span style={{ fontSize: '30px', fontWeight: 800, color: '#0f172a' }}>
+                        ${Number(product.price).toFixed(2)}
+                      </span>
+                      <span style={{ fontSize: '13px', color: '#94a3b8' }}>{product.currency || 'USD'}</span>
+                    </>
+                  )}
+                </div>
+
+                {paddleError && (
+                  <div style={{ background: '#fee2e2', border: '1px solid #fca5a5', borderRadius: '8px', padding: '10px 12px', color: '#991b1b', fontSize: '12px', lineHeight: 1.5, marginBottom: '12px' }}>
+                    {paddleError}
+                  </div>
+                )}
+
+                {/* CTA Button */}
                 {product.isFree ? (
-                  <span style={{ fontSize: '26px', fontWeight: 800, color: '#10b981' }}>Free</span>
+                  <div>
+                    <button onClick={handleFreeDownload} disabled={!!downloadMsg} style={{ width: '100%', padding: '13px', background: 'linear-gradient(135deg, #10b981, #059669)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '15px', cursor: downloadMsg ? 'not-allowed' : 'pointer', boxShadow: '0 4px 12px rgba(16,185,129,0.35)', opacity: downloadMsg ? 0.7 : 1 }}>
+                      {downloadMsg || '⬇ Download Free'}
+                    </button>
+                  </div>
                 ) : (
-                  <>
-                    <span style={{ fontSize: '30px', fontWeight: 800, color: '#0f172a' }}>
-                      ${Number(product.price).toFixed(2)}
-                    </span>
-                    <span style={{ fontSize: '13px', color: '#94a3b8' }}>{product.currency || 'USD'}</span>
-                  </>
+                  <div>
+                    <button onClick={openCheckout} disabled={buying} style={{ width: '100%', padding: '13px', background: 'linear-gradient(135deg, #2563eb, #1d4ed8)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '15px', cursor: 'pointer', boxShadow: '0 4px 12px rgba(37,99,235,0.35)' }}>
+                      {buying ? 'Opening checkout…' : `🛒 Buy Now — $${Number(product.price).toFixed(2)}`}
+                    </button>
+                    <p style={{ fontSize: '11px', color: '#94a3b8', textAlign: 'center', marginTop: '8px', lineHeight: 1.5 }}>
+                      Secure payment via Paddle · Instant download
+                    </p>
+                  </div>
                 )}
               </div>
 
-              {paddleError && (
-                <div style={{ background: '#fee2e2', border: '1px solid #fca5a5', borderRadius: '8px', padding: '10px 12px', color: '#991b1b', fontSize: '12px', lineHeight: 1.5, marginBottom: '12px' }}>
-                  {paddleError}
+              {/* File info card */}
+              <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '18px', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {[
+                    { label: 'File format', value: product.fileFormat ? `${product.fileFormat} (AutoCAD)` : null },
+                    { label: 'CAD version', value: product.cadVersion },
+                    { label: 'Category', value: product.category?.name },
+                    { label: 'File size', value: product.fileSizeBytes ? `${(Number(product.fileSizeBytes) / 1024 / 1024).toFixed(1)} MB` : null },
+                    { label: 'Downloads', value: product.downloadCount > 0 ? product.downloadCount.toLocaleString() : null },
+                  ]
+                    .filter((r) => r.value)
+                    .map(({ label, value }) => (
+                      <div key={label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', alignItems: 'center' }}>
+                        <span style={{ color: '#64748b' }}>{label}:</span>
+                        <span style={{ fontWeight: 600, color: '#1e293b' }}>{value}</span>
+                      </div>
+                    ))}
                 </div>
-              )}
-
-              {/* CTA Button */}
-              {product.isFree ? (
-                <div>
-                  <button
-                    onClick={handleFreeDownload}
-                    disabled={!!downloadMsg}
-                    style={{ width: '100%', padding: '13px', background: 'linear-gradient(135deg, #10b981, #059669)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '15px', cursor: downloadMsg ? 'not-allowed' : 'pointer', boxShadow: '0 4px 12px rgba(16,185,129,0.35)', transition: 'opacity 0.15s', opacity: downloadMsg ? 0.7 : 1 }}
-                  >
-                    {downloadMsg || '⬇ Download Free'}
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <button
-                    onClick={openCheckout}
-                    disabled={buying}
-                    style={{ width: '100%', padding: '13px', background: 'linear-gradient(135deg, #2563eb, #1d4ed8)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '15px', cursor: 'pointer', boxShadow: '0 4px 12px rgba(37,99,235,0.35)', transition: 'all 0.2s' }}
-                  >
-                    {buying ? 'Opening checkout…' : `🛒 Buy Now — $${Number(product.price).toFixed(2)}`}
-                  </button>
-                  <p style={{ fontSize: '11px', color: '#94a3b8', textAlign: 'center', marginTop: '8px', lineHeight: 1.5 }}>
-                    Secure payment via Paddle · Instant download
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* File info card */}
-            <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '18px', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {[
-                  { label: 'File format', value: product.fileFormat ? `${product.fileFormat} (AutoCAD)` : null },
-                  { label: 'CAD version', value: product.cadVersion },
-                  { label: 'Category', value: product.category?.name },
-                  { label: 'File size', value: product.fileSizeBytes ? `${(Number(product.fileSizeBytes) / 1024 / 1024).toFixed(1)} MB` : null },
-                  { label: 'Downloads', value: product.downloadCount > 0 ? product.downloadCount.toLocaleString() : null },
-                ]
-                  .filter((r) => r.value)
-                  .map(({ label, value }) => (
-                    <div key={label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', alignItems: 'center' }}>
-                      <span style={{ color: '#64748b' }}>{label}:</span>
-                      <span style={{ fontWeight: 600, color: '#1e293b' }}>{value}</span>
-                    </div>
-                  ))}
               </div>
-            </div>
-          </aside>
+            </aside>
+          )}
         </div>
       </main>
     </div>

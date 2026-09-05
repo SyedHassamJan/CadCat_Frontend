@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/auth.store';
@@ -17,6 +17,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter();
   const pathname = usePathname();
   const { isAuthenticated, admin, logout } = useAuthStore();
+  const [isMobile, setIsMobile] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated && pathname !== '/admin/login') {
@@ -33,123 +42,136 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     router.replace('/admin/login');
   }
 
-  return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8fafc' }}>
-      {/* Sidebar */}
-      <aside
-        style={{
-          width: '240px',
-          background: '#0f172a',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          overflowY: 'auto',
-          zIndex: 40,
-        }}
-      >
-        {/* Logo */}
-        <div
-          style={{
-            padding: '20px 16px',
-            borderBottom: '1px solid rgba(255,255,255,0.06)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div
-              style={{
-                width: '34px',
-                height: '34px',
-                background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
-                borderRadius: '9px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '16px',
-                color: '#fff',
-                boxShadow: '0 4px 10px rgba(59,130,246,0.4)',
-                flexShrink: 0,
-              }}
-            >
-              ⬡
-            </div>
-            <div>
-              <div style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '14px', lineHeight: 1.2 }}>
-                CAD Marketplace
-              </div>
-              <div style={{ color: '#475569', fontSize: '11px' }}>Admin Portal</div>
-            </div>
+  /* ── Desktop sidebar ── */
+  const DesktopSidebar = (
+    <aside style={{
+      width: '240px',
+      background: '#0f172a',
+      position: 'fixed',
+      top: 0, left: 0,
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      overflowY: 'auto',
+      zIndex: 40,
+    }}>
+      {/* Logo */}
+      <div style={{ padding: '20px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ width: '34px', height: '34px', background: 'linear-gradient(135deg,#3b82f6,#2563eb)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', color: '#fff', flexShrink: 0 }}>⬡</div>
+          <div>
+            <div style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '14px', lineHeight: 1.2 }}>CAD Marketplace</div>
+            <div style={{ color: '#475569', fontSize: '11px' }}>Admin Portal</div>
           </div>
         </div>
+      </div>
 
-        {/* Nav */}
+      {/* Nav */}
+      <nav style={{ padding: '12px 8px', flex: 1 }}>
+        {NAV_ITEMS.map(({ href, label, icon, exact }) => {
+          const isActive = exact ? pathname === href : pathname.startsWith(href);
+          return (
+            <Link key={href} href={href} style={{
+              display: 'flex', alignItems: 'center', gap: '10px',
+              padding: '9px 12px', borderRadius: '8px',
+              color: isActive ? '#fff' : '#94a3b8',
+              fontWeight: 500, fontSize: '14px', textDecoration: 'none',
+              background: isActive ? 'linear-gradient(135deg,#3b82f6,#2563eb)' : 'transparent',
+              marginBottom: '2px', transition: 'all 0.15s',
+              boxShadow: isActive ? '0 4px 10px rgba(59,130,246,0.3)' : 'none',
+            }}>
+              <span style={{ fontSize: '16px', opacity: 0.85 }}>{icon}</span>
+              {label}
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* User info + logout */}
+      <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ color: '#64748b', fontSize: '12px', marginBottom: '4px' }}>Signed in as</div>
+        <div style={{ color: '#94a3b8', fontSize: '13px', fontWeight: 500, marginBottom: '10px', wordBreak: 'break-all' }}>{admin?.email}</div>
+        <button onClick={handleLogout} style={{ width: '100%', padding: '8px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: '8px', color: '#fca5a5', fontSize: '13px', fontWeight: 500, cursor: 'pointer' }}>
+          Sign out
+        </button>
+      </div>
+    </aside>
+  );
+
+  /* ── Mobile drawer overlay ── */
+  const MobileDrawer = sidebarOpen && (
+    <>
+      {/* Backdrop */}
+      <div onClick={() => setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 998 }} />
+      {/* Drawer */}
+      <aside style={{ position: 'fixed', top: 0, left: 0, width: '260px', height: '100vh', background: '#0f172a', zIndex: 999, display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+        <div style={{ padding: '20px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ width: '30px', height: '30px', background: 'linear-gradient(135deg,#3b82f6,#2563eb)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>⬡</div>
+            <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '13px' }}>CAD Marketplace</span>
+          </div>
+          <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '20px', cursor: 'pointer', lineHeight: 1 }}>✕</button>
+        </div>
+
         <nav style={{ padding: '12px 8px', flex: 1 }}>
           {NAV_ITEMS.map(({ href, label, icon, exact }) => {
             const isActive = exact ? pathname === href : pathname.startsWith(href);
             return (
-              <Link
-                key={href}
-                href={href}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  padding: '9px 12px',
-                  borderRadius: '8px',
-                  color: isActive ? '#fff' : '#94a3b8',
-                  fontWeight: 500,
-                  fontSize: '14px',
-                  textDecoration: 'none',
-                  background: isActive ? 'linear-gradient(135deg, #3b82f6, #2563eb)' : 'transparent',
-                  marginBottom: '2px',
-                  transition: 'all 0.15s',
-                  boxShadow: isActive ? '0 4px 10px rgba(59,130,246,0.3)' : 'none',
-                }}
-              >
-                <span style={{ fontSize: '16px', opacity: 0.85 }}>{icon}</span>
+              <Link key={href} href={href} onClick={() => setSidebarOpen(false)} style={{
+                display: 'flex', alignItems: 'center', gap: '12px',
+                padding: '11px 14px', borderRadius: '8px',
+                color: isActive ? '#fff' : '#94a3b8',
+                fontWeight: 500, fontSize: '15px', textDecoration: 'none',
+                background: isActive ? 'linear-gradient(135deg,#3b82f6,#2563eb)' : 'transparent',
+                marginBottom: '4px',
+              }}>
+                <span style={{ fontSize: '18px' }}>{icon}</span>
                 {label}
               </Link>
             );
           })}
         </nav>
 
-        {/* User info + logout */}
-        <div
-          style={{
-            padding: '12px 16px',
-            borderTop: '1px solid rgba(255,255,255,0.06)',
-          }}
-        >
-          <div style={{ color: '#64748b', fontSize: '12px', marginBottom: '4px' }}>
-            Signed in as
-          </div>
-          <div style={{ color: '#94a3b8', fontSize: '13px', fontWeight: 500, marginBottom: '10px', wordBreak: 'break-all' }}>
-            {admin?.email}
-          </div>
-          <button
-            onClick={handleLogout}
-            style={{
-              width: '100%',
-              padding: '8px',
-              background: 'rgba(239,68,68,0.1)',
-              border: '1px solid rgba(239,68,68,0.2)',
-              borderRadius: '8px',
-              color: '#fca5a5',
-              fontSize: '13px',
-              fontWeight: 500,
-              cursor: 'pointer',
-              transition: 'all 0.15s',
-            }}
-          >
+        <div style={{ padding: '14px 16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ color: '#64748b', fontSize: '12px', marginBottom: '4px' }}>Signed in as</div>
+          <div style={{ color: '#94a3b8', fontSize: '13px', marginBottom: '12px', wordBreak: 'break-all' }}>{admin?.email}</div>
+          <button onClick={handleLogout} style={{ width: '100%', padding: '10px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: '8px', color: '#fca5a5', fontSize: '14px', fontWeight: 500, cursor: 'pointer' }}>
             Sign out
           </button>
         </div>
       </aside>
+    </>
+  );
 
-      {/* Main content */}
-      <main style={{ marginLeft: '240px', flex: 1, padding: '28px', minHeight: '100vh' }}>
+  /* ── Mobile top bar ── */
+  const MobileTopBar = (
+    <header style={{ position: 'fixed', top: 0, left: 0, right: 0, height: '52px', background: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', zIndex: 90, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <button onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '22px', cursor: 'pointer', lineHeight: 1, padding: '4px' }}>
+        ☰
+      </button>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ width: '24px', height: '24px', background: 'linear-gradient(135deg,#3b82f6,#2563eb)', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '12px' }}>⬡</div>
+        <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '14px' }}>Admin</span>
+      </div>
+      <div style={{ width: '30px' }} /> {/* balance */}
+    </header>
+  );
+
+  return (
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8fafc' }}>
+      {!isMobile && DesktopSidebar}
+      {isMobile && MobileTopBar}
+      {isMobile && MobileDrawer}
+
+      <main style={{
+        marginLeft: isMobile ? 0 : '240px',
+        marginTop: isMobile ? '52px' : 0,
+        flex: 1,
+        padding: isMobile ? '16px' : '28px',
+        minHeight: '100vh',
+        maxWidth: '100%',
+        overflowX: 'hidden',
+      }}>
         {children}
       </main>
     </div>
