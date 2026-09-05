@@ -1,7 +1,7 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import { useState, useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import api from '@/lib/api';
 
@@ -18,6 +18,20 @@ export default function HomePage() {
   });
   const [isMobile, setIsMobile] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
+  const queryClient = useQueryClient();
+
+  // Prefetch product detail on card hover — makes navigation feel instant
+  const prefetchProduct = useCallback((slug: string) => {
+    queryClient.prefetchQuery({
+      queryKey: ['product', slug],
+      queryFn: async () => {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'}/products/${slug}`);
+        if (!res.ok) throw new Error('Not found');
+        return res.json();
+      },
+      staleTime: 3 * 60 * 1000,
+    });
+  }, [queryClient]);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 768);
@@ -188,7 +202,10 @@ export default function HomePage() {
             <>
               <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(auto-fill, minmax(220px, 1fr))', gap: isMobile ? '12px' : '20px' }}>
                 {products.map((p: any) => (
-                  <Link key={p.id} href={`/product/${p.slug}`} style={{ textDecoration: 'none' }}>
+                  <Link key={p.id} href={`/product/${p.slug}`} style={{ textDecoration: 'none' }}
+                    onMouseEnter={() => prefetchProduct(p.slug)}
+                    onFocus={() => prefetchProduct(p.slug)}
+                  >
                     <div
                       style={{ background: '#fff', border: '1px solid #e8ecf0', borderRadius: '12px', overflow: 'hidden', transition: 'all 0.18s ease', cursor: 'pointer', boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}
                       onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = '0 8px 24px rgba(0,0,0,0.12)'; el.style.transform = 'translateY(-4px)'; }}
@@ -200,6 +217,8 @@ export default function HomePage() {
                           <img
                             src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'}/products/media/${p.thumbnailKey}`}
                             alt={p.title}
+                            loading="lazy"
+                            decoding="async"
                             style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '6px' }}
                           />
                         ) : (

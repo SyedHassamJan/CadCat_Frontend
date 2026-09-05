@@ -9,8 +9,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 60 * 1000, // 1 minute
+            staleTime: 5 * 60 * 1000,      // 5 min — data stays fresh longer
+            gcTime: 10 * 60 * 1000,         // 10 min — keep in memory after unmount
             retry: 1,
+            refetchOnWindowFocus: false,     // don't re-fetch when tab regains focus
+            refetchOnReconnect: true,        // do re-fetch after offline → online
           },
         },
       }),

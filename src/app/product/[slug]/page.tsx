@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Script from 'next/script';
@@ -37,15 +38,52 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
   );
 }
 
+/* ─── Skeleton ───────────────────────────────────────────────────────────────── */
+function ProductSkeleton({ isMobile }: { isMobile: boolean }) {
+  const box = (h: string, w = '100%', r = '12px') => (
+    <div className="skeleton" style={{ height: h, width: w, borderRadius: r }} />
+  );
+  return (
+    <div style={{ fontFamily: "'Inter', sans-serif", minHeight: '100vh', background: '#f8fafc' }}>
+      <header style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', height: '62px' }} />
+      <main style={{ maxWidth: '1280px', margin: '0 auto', padding: isMobile ? '16px' : '32px 24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 340px', gap: isMobile ? '16px' : '28px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {box('0', '100%', '14px')}
+            <div style={{ aspectRatio: '4/3', borderRadius: '14px', overflow: 'hidden' }}>
+              <div className="skeleton" style={{ width: '100%', height: '100%' }} />
+            </div>
+            <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {box('18px', '60%')}
+              {box('14px')}
+              {box('14px')}
+              {box('14px', '80%')}
+            </div>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '22px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {box('22px', '70%')}
+              {box('36px', '40%')}
+              {box('46px')}
+            </div>
+            <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {box('16px')}
+              {box('16px')}
+              {box('16px')}
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
 /* ─── Main Page ─────────────────────────────────────────────────────────────── */
 export default function ProductDetailPage() {
   const params = useParams();
   const router = useRouter();
   const slug = params?.slug as string;
 
-  const [product, setProduct] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState('');
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -61,33 +99,18 @@ export default function ProductDetailPage() {
   const [downloadMsg, setDownloadMsg] = useState('');
   const [paddleError, setPaddleError] = useState('');
 
-  // Fetch product data
-  useEffect(() => {
-    if (!slug) return;
-    let isMounted = true;
-    setLoading(true);
-    setErrorMsg('');
-
-    fetch(`${API_BASE}/products/${slug}`)
-      .then((res) => {
-        if (!res.ok) throw new Error(`Product not found (${res.status})`);
-        return res.json();
-      })
-      .then((data) => {
-        if (isMounted) {
-          setProduct(data);
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        if (isMounted) {
-          setErrorMsg(err.message || 'Failed to load product');
-          setLoading(false);
-        }
-      });
-
-    return () => { isMounted = false; };
-  }, [slug]);
+  // ── TanStack Query — cached, deduplicated, background-refreshed ──
+  const { data: product, isLoading, isError, error } = useQuery({
+    queryKey: ['product', slug],
+    queryFn: async () => {
+      const res = await fetch(`${API_BASE}/products/${slug}`);
+      if (!res.ok) throw new Error(`Product not found (${res.status})`);
+      return res.json();
+    },
+    enabled: !!slug,
+    staleTime: 3 * 60 * 1000,  // product data fresh for 3 min
+    retry: 1,
+  });
 
   // Initialize Paddle
   const initPaddle = useCallback(() => {
@@ -182,24 +205,15 @@ export default function ProductDetailPage() {
     }
   }, [product]);
 
-  if (loading) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh', fontFamily: "'Inter', sans-serif", color: '#94a3b8' }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '36px', marginBottom: '12px', animation: 'spin 1s linear infinite' }}>⬡</div>
-          <div>Loading CAD drawing…</div>
-        </div>
-      </div>
-    );
-  }
+  if (isLoading) return <ProductSkeleton isMobile={isMobile} />;
 
-  if (errorMsg || !product) {
+  if (isError || !product) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh', fontFamily: "'Inter', sans-serif" }}>
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: '48px', marginBottom: '12px' }}>📐</div>
           <div style={{ fontSize: '18px', fontWeight: 600, color: '#334155' }}>Product not found</div>
-          <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '6px' }}>{errorMsg}</div>
+          <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '6px' }}>{(error as Error)?.message}</div>
           <Link href="/" style={{ color: '#2563eb', fontSize: '14px', marginTop: '16px', display: 'inline-block', fontWeight: 600 }}>← Back to catalogue</Link>
         </div>
       </div>
@@ -266,6 +280,8 @@ export default function ProductDetailPage() {
                   <img
                     src={previewUrl}
                     alt={product.title}
+                    loading="eager"
+                    decoding="async"
                     style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '12px' }}
                     onError={(e) => {
                       const img = e.currentTarget;
