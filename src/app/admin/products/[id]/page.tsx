@@ -85,7 +85,12 @@ export default function EditProductPage() {
         if (cadFile) fd.append('cadFile', cadFile);
         if (previewImg) fd.append('previewImage', previewImg);
 
-        await api.post(`/products/${id}/media`, fd);
+        try {
+          await api.post(`/products/${id}/media`, fd);
+        } catch (err: any) {
+          setError(err.response?.data?.message || 'Failed to upload files');
+          return;
+        }
       }
 
       setSuccess('Product updated successfully!');

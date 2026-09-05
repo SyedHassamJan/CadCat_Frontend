@@ -105,10 +105,9 @@ export default function ProductDetailPage() {
     initPaddle();
   }, [initPaddle]);
 
-  const images: string[] = [];
-  if (product?.previewImageKey) images.push(`${API_BASE}/products/media/${product.previewImageKey}`);
-  if (product?.thumbnailKey && product.thumbnailKey !== product.previewImageKey)
-    images.push(`${API_BASE}/products/media/${product.thumbnailKey}`);
+  const previewUrl = product?.previewImageKey
+    ? `${API_BASE}/products/media/${product.previewImageKey}`
+    : null;
 
   const openCheckout = useCallback(() => {
     if (!product) return;
@@ -239,7 +238,7 @@ export default function ProductDetailPage() {
           <div>
             {/* Main Preview Image */}
             <div
-              onClick={() => images[0] && setLightboxSrc(images[0])}
+              onClick={() => previewUrl && setLightboxSrc(previewUrl)}
               style={{
                 background: '#f1f5f9',
                 border: '1px solid #e2e8f0',
@@ -249,15 +248,15 @@ export default function ProductDetailPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                cursor: images[0] ? 'zoom-in' : 'default',
-                marginBottom: '12px',
+                cursor: previewUrl ? 'zoom-in' : 'default',
+                marginBottom: '20px',
                 position: 'relative',
               }}
             >
-              {images[0] ? (
+              {previewUrl ? (
                 <>
                   <img
-                    src={images[0]}
+                    src={previewUrl}
                     alt={product.title}
                     style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '12px' }}
                     onError={(e) => {
@@ -273,30 +272,6 @@ export default function ProductDetailPage() {
                 <div style={{ fontSize: '80px', color: '#cbd5e1' }}>⬡</div>
               )}
             </div>
-
-            {/* Thumbnail Strip */}
-            {images.length > 1 && (
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '20px' }}>
-                {images.map((src, i) => (
-                  <div
-                    key={i}
-                    onClick={() => setLightboxSrc(src)}
-                    style={{
-                      width: '80px',
-                      height: '60px',
-                      border: '2px solid #e2e8f0',
-                      borderRadius: '8px',
-                      overflow: 'hidden',
-                      cursor: 'zoom-in',
-                      flexShrink: 0,
-                      background: '#f8fafc',
-                    }}
-                  >
-                    <img src={src} alt={`${product.title} ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  </div>
-                ))}
-              </div>
-            )}
 
             {/* Description Card */}
             <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>

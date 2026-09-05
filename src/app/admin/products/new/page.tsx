@@ -55,9 +55,14 @@ export default function NewProductPage() {
         if (cadFile)    fd.append('cadFile',      cadFile);
         if (previewImg) fd.append('previewImage',  previewImg);
 
-        await api.post(`/products/${product.id}/media`, fd, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
+        try {
+          await api.post(`/products/${product.id}/media`, fd, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+          });
+        } catch (err: any) {
+          setError(err.response?.data?.message || 'Failed to upload files');
+          return;
+        }
       }
 
       setSuccess('Product created successfully!');
