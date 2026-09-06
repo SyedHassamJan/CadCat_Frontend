@@ -3,6 +3,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { Search, SlidersHorizontal, Layers } from 'lucide-react';
 import api from '@/lib/api';
 
 const FORMATS = ['dwg', 'dxf', 'skp', 'rvt', 'ifc', 'step', '3ds', 'max'];
@@ -85,7 +86,7 @@ export default function HomePage() {
       {/* Price */}
       <div style={{ marginBottom: '20px' }}>
         <div style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Price</div>
-        {[{ label: 'All', value: '' }, { label: '🆓 Free', value: 'true' }, { label: '💳 Paid', value: 'false' }].map(({ label, value }) => (
+        {[{ label: 'All', value: '' }, { label: 'Free', value: 'true' }, { label: 'Paid', value: 'false' }].map(({ label, value }) => (
           <button key={value} onClick={() => setFilter('isFree', value)} style={{ display: 'block', width: '100%', textAlign: 'left', padding: '6px 10px', borderRadius: '8px', background: filters.isFree === value ? '#eff6ff' : 'transparent', color: filters.isFree === value ? '#2563eb' : '#475569', border: 'none', cursor: 'pointer', fontWeight: filters.isFree === value ? 600 : 400, fontSize: '13px', marginBottom: '2px' }}>{label}</button>
         ))}
       </div>
@@ -117,13 +118,13 @@ export default function HomePage() {
 
           {/* Search bar */}
           <div style={{ flex: 1, position: 'relative' }}>
-            <span style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontSize: '14px' }}>🔍</span>
+            <Search size={15} style={{ position: 'absolute', left: '11px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
             <input
               type="text"
               placeholder={isMobile ? 'Search CAD blocks...' : 'Search CAD blocks, furniture, architecture...'}
               value={filters.search}
               onChange={(e) => setFilter('search', e.target.value)}
-              style={{ width: '100%', padding: '8px 12px 8px 32px', border: '1px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none', background: '#f8fafc', boxSizing: 'border-box' }}
+              style={{ width: '100%', padding: '8px 12px 8px 34px', border: '1px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none', background: '#f8fafc', boxSizing: 'border-box' }}
             />
           </div>
 
@@ -131,15 +132,15 @@ export default function HomePage() {
           {isMobile && (
             <button
               onClick={() => setFilterOpen(f => !f)}
-              style={{ padding: '8px 12px', borderRadius: '9px', border: '1px solid #e2e8f0', background: filterOpen ? '#2563eb' : '#fff', color: filterOpen ? '#fff' : '#475569', fontSize: '13px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}
+              style={{ padding: '8px 12px', borderRadius: '9px', border: '1px solid #e2e8f0', background: filterOpen ? '#2563eb' : '#fff', color: filterOpen ? '#fff' : '#475569', fontSize: '13px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}
             >
-              ⚙ Filter
+              <SlidersHorizontal size={13} /> Filter
             </button>
           )}
 
           {/* Admin link */}
           <Link href="/admin" style={{ padding: '8px 14px', borderRadius: '9px', background: '#1e293b', color: '#fff', fontSize: '13px', fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0 }}>
-            {isMobile ? 'Admin' : 'Admin ↗'}
+            Admin
           </Link>
         </div>
       </header>
@@ -194,7 +195,9 @@ export default function HomePage() {
             </div>
           ) : products.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 0', color: '#94a3b8' }}>
-              <div style={{ fontSize: '52px', marginBottom: '16px' }}>📐</div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px', color: '#94a3b8' }}>
+                <Layers size={48} strokeWidth={1.5} />
+              </div>
               <div style={{ fontSize: '18px', fontWeight: 600, color: '#475569', marginBottom: '8px' }}>No blocks found</div>
               <div style={{ fontSize: '14px' }}>Try adjusting your filters or search term</div>
             </div>

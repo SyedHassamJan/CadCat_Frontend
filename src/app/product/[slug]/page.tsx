@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Script from 'next/script';
+import { Download, ShoppingBag, ZoomIn, FileQuestion } from 'lucide-react';
 import { getPaddlePriceId } from '@/lib/paddle-tiers';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
@@ -211,7 +212,9 @@ export default function ProductDetailPage() {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh', fontFamily: "'Inter', sans-serif" }}>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '48px', marginBottom: '12px' }}>📐</div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px', color: '#94a3b8' }}>
+            <FileQuestion size={48} strokeWidth={1.5} />
+          </div>
           <div style={{ fontSize: '18px', fontWeight: 600, color: '#334155' }}>Product not found</div>
           <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '6px' }}>{(error as Error)?.message}</div>
           <Link href="/" style={{ color: '#2563eb', fontSize: '14px', marginTop: '16px', display: 'inline-block', fontWeight: 600 }}>← Back to catalogue</Link>
@@ -288,8 +291,8 @@ export default function ProductDetailPage() {
                       img.style.display = 'none';
                     }}
                   />
-                  <div style={{ position: 'absolute', bottom: '10px', right: '12px', background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: '11px', padding: '3px 8px', borderRadius: '4px', backdropFilter: 'blur(4px)' }}>
-                    🔍 Click to enlarge
+                  <div style={{ position: 'absolute', bottom: '10px', right: '12px', background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: '11px', padding: '4px 8px', borderRadius: '4px', backdropFilter: 'blur(4px)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                    <ZoomIn size={12} /> Click to enlarge
                   </div>
                 </>
               ) : (
@@ -333,12 +336,14 @@ export default function ProductDetailPage() {
                     )}
                   </div>
                   {product.isFree ? (
-                    <button onClick={handleFreeDownload} disabled={!!downloadMsg} style={{ padding: '11px 20px', background: 'linear-gradient(135deg,#10b981,#059669)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '14px', cursor: downloadMsg ? 'not-allowed' : 'pointer', flexShrink: 0 }}>
-                      {downloadMsg || '⬇ Free Download'}
+                    <button onClick={handleFreeDownload} disabled={!!downloadMsg} style={{ padding: '11px 20px', background: 'linear-gradient(135deg,#10b981,#059669)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '14px', cursor: downloadMsg ? 'not-allowed' : 'pointer', flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                      <Download size={15} />
+                      {downloadMsg || 'Free Download'}
                     </button>
                   ) : (
-                    <button onClick={openCheckout} disabled={buying} style={{ padding: '11px 20px', background: 'linear-gradient(135deg,#2563eb,#1d4ed8)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '14px', cursor: 'pointer', flexShrink: 0 }}>
-                      {buying ? 'Opening…' : `🛒 Buy Now`}
+                    <button onClick={openCheckout} disabled={buying} style={{ padding: '11px 20px', background: 'linear-gradient(135deg,#2563eb,#1d4ed8)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '14px', cursor: 'pointer', flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                      <ShoppingBag size={15} />
+                      {buying ? 'Opening…' : 'Buy Now'}
                     </button>
                   )}
                 </div>
@@ -380,14 +385,16 @@ export default function ProductDetailPage() {
                 {/* CTA Button */}
                 {product.isFree ? (
                   <div>
-                    <button onClick={handleFreeDownload} disabled={!!downloadMsg} style={{ width: '100%', padding: '13px', background: 'linear-gradient(135deg, #10b981, #059669)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '15px', cursor: downloadMsg ? 'not-allowed' : 'pointer', boxShadow: '0 4px 12px rgba(16,185,129,0.35)', opacity: downloadMsg ? 0.7 : 1 }}>
-                      {downloadMsg || '⬇ Download Free'}
+                    <button onClick={handleFreeDownload} disabled={!!downloadMsg} style={{ width: '100%', padding: '13px', background: 'linear-gradient(135deg, #10b981, #059669)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '15px', cursor: downloadMsg ? 'not-allowed' : 'pointer', boxShadow: '0 4px 12px rgba(16,185,129,0.35)', opacity: downloadMsg ? 0.7 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <Download size={17} />
+                      {downloadMsg || 'Download Free'}
                     </button>
                   </div>
                 ) : (
                   <div>
-                    <button onClick={openCheckout} disabled={buying} style={{ width: '100%', padding: '13px', background: 'linear-gradient(135deg, #2563eb, #1d4ed8)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '15px', cursor: 'pointer', boxShadow: '0 4px 12px rgba(37,99,235,0.35)' }}>
-                      {buying ? 'Opening checkout…' : `🛒 Buy Now — $${Number(product.price).toFixed(2)}`}
+                    <button onClick={openCheckout} disabled={buying} style={{ width: '100%', padding: '13px', background: 'linear-gradient(135deg, #2563eb, #1d4ed8)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '15px', cursor: 'pointer', boxShadow: '0 4px 12px rgba(37,99,235,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <ShoppingBag size={17} />
+                      {buying ? 'Opening checkout…' : `Buy Now — $${Number(product.price).toFixed(2)}`}
                     </button>
                     <p style={{ fontSize: '11px', color: '#94a3b8', textAlign: 'center', marginTop: '8px', lineHeight: 1.5 }}>
                       Secure payment via Paddle · Instant download

@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import Link from 'next/link';
+import { Search } from 'lucide-react';
 import api from '@/lib/api';
 
 const FORMATS = ['dwg', 'dxf', 'skp', 'rvt', 'ifc', 'step', '3ds', 'max'];
@@ -149,7 +150,9 @@ export default function BrowsePage() {
             </div>
           ) : products.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '80px 0', color: '#94a3b8' }}>
-              <div style={{ fontSize: '48px', marginBottom: '12px' }}>🔍</div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px', color: '#94a3b8' }}>
+                <Search size={44} strokeWidth={1.5} />
+              </div>
               No products match your filters.
             </div>
           ) : (

@@ -3,14 +3,15 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { LayoutDashboard, Package, FolderTree, Tag, ShoppingCart, Menu, X } from 'lucide-react';
 import { useAuthStore } from '@/store/auth.store';
 
 const NAV_ITEMS = [
-  { href: '/admin', label: 'Dashboard', icon: '▤', exact: true },
-  { href: '/admin/products', label: 'Products', icon: '⬚' },
-  { href: '/admin/categories', label: 'Categories', icon: '◫' },
-  { href: '/admin/tags', label: 'Tags', icon: '◈' },
-  { href: '/admin/orders', label: 'Orders', icon: '◱' },
+  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
+  { href: '/admin/products', label: 'Products', icon: Package },
+  { href: '/admin/categories', label: 'Categories', icon: FolderTree },
+  { href: '/admin/tags', label: 'Tags', icon: Tag },
+  { href: '/admin/orders', label: 'Orders', icon: ShoppingCart },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -68,7 +69,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Nav */}
       <nav style={{ padding: '12px 8px', flex: 1 }}>
-        {NAV_ITEMS.map(({ href, label, icon, exact }) => {
+        {NAV_ITEMS.map(({ href, label, icon: Icon, exact }) => {
           const isActive = exact ? pathname === href : pathname.startsWith(href);
           return (
             <Link key={href} href={href} style={{
@@ -80,7 +81,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               marginBottom: '2px', transition: 'all 0.15s',
               boxShadow: isActive ? '0 4px 10px rgba(59,130,246,0.3)' : 'none',
             }}>
-              <span style={{ fontSize: '16px', opacity: 0.85 }}>{icon}</span>
+              <Icon size={16} style={{ opacity: 0.85 }} />
               {label}
             </Link>
           );
@@ -110,11 +111,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div style={{ width: '30px', height: '30px', background: 'linear-gradient(135deg,#3b82f6,#2563eb)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>⬡</div>
             <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '13px' }}>CAD Marketplace</span>
           </div>
-          <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '20px', cursor: 'pointer', lineHeight: 1 }}>✕</button>
+          <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px' }}>
+            <X size={20} />
+          </button>
         </div>
 
         <nav style={{ padding: '12px 8px', flex: 1 }}>
-          {NAV_ITEMS.map(({ href, label, icon, exact }) => {
+          {NAV_ITEMS.map(({ href, label, icon: Icon, exact }) => {
             const isActive = exact ? pathname === href : pathname.startsWith(href);
             return (
               <Link key={href} href={href} onClick={() => setSidebarOpen(false)} style={{
@@ -125,7 +128,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 background: isActive ? 'linear-gradient(135deg,#3b82f6,#2563eb)' : 'transparent',
                 marginBottom: '4px',
               }}>
-                <span style={{ fontSize: '18px' }}>{icon}</span>
+                <Icon size={18} />
                 {label}
               </Link>
             );
@@ -146,8 +149,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   /* ── Mobile top bar ── */
   const MobileTopBar = (
     <header style={{ position: 'fixed', top: 0, left: 0, right: 0, height: '52px', background: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', zIndex: 90, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-      <button onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '22px', cursor: 'pointer', lineHeight: 1, padding: '4px' }}>
-        ☰
+      <button onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '6px' }}>
+        <Menu size={20} />
       </button>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <div style={{ width: '24px', height: '24px', background: 'linear-gradient(135deg,#3b82f6,#2563eb)', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '12px' }}>⬡</div>

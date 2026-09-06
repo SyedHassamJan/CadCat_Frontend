@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { Check, Download } from 'lucide-react';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
@@ -95,8 +96,8 @@ function SuccessContent() {
           
           {/* Header icon */}
           <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-            <div style={{ width: '64px', height: '64px', background: '#dcfce7', borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px', color: '#16a34a', marginBottom: '16px' }}>
-              ✓
+            <div style={{ width: '64px', height: '64px', background: '#dcfce7', borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#16a34a', marginBottom: '16px' }}>
+              <Check size={32} strokeWidth={2.5} />
             </div>
             <h1 style={{ fontSize: '24px', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
               Payment Successful!
@@ -168,7 +169,13 @@ function SuccessContent() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {downloadingId === item.product.id ? 'Preparing…' : '⬇ Download File'}
+                      {downloadingId === item.product.id ? (
+                        'Preparing…'
+                      ) : (
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                          <Download size={15} /> Download File
+                        </span>
+                      )}
                     </button>
                   </div>
                 ))}

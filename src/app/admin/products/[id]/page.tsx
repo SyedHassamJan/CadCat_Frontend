@@ -3,6 +3,7 @@
 import { useState, FormEvent, useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useQuery, useMutation } from '@tanstack/react-query';
+import { Check } from 'lucide-react';
 import api from '@/lib/api';
 import { PRICE_TIERS } from '@/lib/paddle-tiers';
 
@@ -322,8 +323,8 @@ export default function EditProductPage() {
                 <label style={labelStyle}>CAD Drawing File (.dwg, .dxf, .skp)</label>
                 <div style={{ border: '2px dashed #cbd5e1', borderRadius: '10px', padding: '16px', textAlign: 'center', background: '#f8fafc', position: 'relative' }}>
                   {product.fileKey && !cadFileName && (
-                    <div style={{ fontSize: '12px', color: '#10b981', fontWeight: 600, marginBottom: '10px' }}>
-                      ✓ CAD file attached ({product.fileFormat?.toUpperCase() || 'DWG'})
+                    <div style={{ fontSize: '12px', color: '#10b981', fontWeight: 600, marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+                      <Check size={14} /> CAD file attached ({product.fileFormat?.toUpperCase() || 'DWG'})
                     </div>
                   )}
                   <input
