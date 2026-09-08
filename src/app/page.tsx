@@ -2,6 +2,7 @@
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import { Search, SlidersHorizontal, Layers } from 'lucide-react';
 import api from '@/lib/api';
 
