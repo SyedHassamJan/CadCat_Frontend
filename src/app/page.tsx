@@ -2,7 +2,6 @@
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
 import { Search, SlidersHorizontal, Layers } from 'lucide-react';
 import api from '@/lib/api';
 
@@ -137,11 +136,6 @@ export default function HomePage() {
               <SlidersHorizontal size={13} /> Filter
             </button>
           )}
-
-          {/* Admin link */}
-          <Link href="/admin" style={{ padding: '8px 14px', borderRadius: '9px', background: '#1e293b', color: '#fff', fontSize: '13px', fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0 }}>
-            Admin
-          </Link>
         </div>
       </header>
 
