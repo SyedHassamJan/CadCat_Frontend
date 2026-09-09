@@ -184,7 +184,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   );
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8fafc' }}>
+    <div style={{
+      display: 'flex',
+      minHeight: '100vh',
+      backgroundColor: 'var(--surface-50)',
+      backgroundImage: `
+        radial-gradient(circle at top right, rgba(198, 241, 53, 0.18), transparent 50%),
+        radial-gradient(circle at bottom right, rgba(198, 241, 53, 0.10), transparent 55%),
+        repeating-linear-gradient(45deg, rgba(0,0,0,0.012) 0, rgba(0,0,0,0.012) 1px, transparent 1px, transparent 12px)
+      `,
+    }}>
       {!isMobile && DesktopSidebar}
       {isMobile && MobileTopBar}
       {isMobile && MobileDrawer}

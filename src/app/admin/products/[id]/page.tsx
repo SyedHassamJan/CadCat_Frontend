@@ -147,10 +147,11 @@ export default function EditProductPage() {
   return (
     <div className="animate-fade-in" style={{ maxWidth: '760px' }}>
       <div style={{ marginBottom: '24px' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
+        <div className="accent-label" style={{ marginBottom: '8px' }}>Catalogue Management</div>
+        <h1 style={{ fontSize: '28px', fontWeight: 800, color: 'var(--brand-900)', fontFamily: "'Outfit', sans-serif", letterSpacing: '-0.02em', marginBottom: '4px' }}>
           Edit Product
         </h1>
-        <p style={{ color: '#64748b', fontSize: '14px' }}>
+        <p style={{ color: 'var(--surface-600)', fontSize: '14px' }}>
           {product?.title}
         </p>
       </div>
@@ -355,7 +356,7 @@ export default function EditProductPage() {
                   const selected = form.tagIds.includes(tag.id);
                   return (
                     <button key={tag.id} type="button" onClick={() => toggleTag(tag.id)}
-                      style={{ padding: '5px 14px', borderRadius: '100px', border: '1px solid ' + (selected ? '#93c5fd' : '#e2e8f0'), background: selected ? '#dbeafe' : '#fff', color: selected ? '#1d4ed8' : '#64748b', fontWeight: 600, fontSize: '13px', cursor: 'pointer' }}>
+                      style={{ padding: '5px 14px', borderRadius: '100px', border: '1px solid ' + (selected ? 'var(--brand-400)' : '#e2e8f0'), background: selected ? 'var(--brand-50)' : '#fff', color: selected ? 'var(--brand-900)' : '#64748b', fontWeight: selected ? 700 : 600, fontSize: '13px', cursor: 'pointer' }}>
                       {tag.name}
                     </button>
                   );
@@ -367,11 +368,13 @@ export default function EditProductPage() {
           {/* Actions */}
           <div style={{ display: 'flex', gap: '12px', paddingTop: '8px' }}>
             <button type="submit" disabled={updateMutation.isPending}
-              style={{ padding: '10px 24px', background: 'linear-gradient(135deg, #3b82f6, #2563eb)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 600, fontSize: '14px', cursor: updateMutation.isPending ? 'not-allowed' : 'pointer', opacity: updateMutation.isPending ? 0.7 : 1, boxShadow: '0 4px 10px rgba(59,130,246,0.3)' }}>
+              className="btn btn-primary"
+              style={{ padding: '10px 24px', fontSize: '14px' }}>
               {updateMutation.isPending ? 'Saving…' : 'Save Changes'}
             </button>
             <button type="button" onClick={() => router.push('/admin/products')}
-              style={{ padding: '10px 20px', background: '#f1f5f9', color: '#334155', border: '1px solid #e2e8f0', borderRadius: '10px', fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}>
+              className="btn btn-secondary"
+              style={{ padding: '10px 20px', fontSize: '14px' }}>
               Cancel
             </button>
           </div>
