@@ -3,15 +3,15 @@
 
 /* ─── CSS Design Tokens ──────────────────────────────────────────────────────── */
 :root {
-  /* Color palette */
-  --brand-50:  #eff6ff;
-  --brand-100: #dbeafe;
-  --brand-200: #bfdbfe;
-  --brand-400: #60a5fa;
-  --brand-500: #3b82f6;
-  --brand-600: #2563eb;
-  --brand-700: #1d4ed8;
-  --brand-900: #1e3a8a;
+  /* ── Brand Palette — Lime / Black "Bold-Tech" ── */
+  --brand-50:  #f7ffe0;   /* faint lime tint — background wash          */
+  --brand-100: #eefcb8;   /* soft highlight background                  */
+  --brand-200: #e0f78a;   /* hover tint / card accent border             */
+  --brand-400: #d4f547;   /* light accent lime                           */
+  --brand-500: #c6f135;   /* PRIMARY accent — buttons, badges, focus     */
+  --brand-600: #a8d928;   /* hover / active state on lime elements       */
+  --brand-700: #8ab820;   /* pressed state / darker accent               */
+  --brand-900: #1a1a1a;   /* near-black — headline ink, primary UI text  */
 
   --surface-0: #ffffff;
   --surface-50: #f8fafc;
@@ -91,7 +91,7 @@ img, video { max-width: 100%; display: block; }
 
 /* ─── Focus ring ─────────────────────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid var(--brand-500);
+  outline: 2px solid var(--brand-500); /* lime — matches new accent */
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
@@ -179,14 +179,15 @@ img, video { max-width: 100%; display: block; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btn-primary {
-  background: var(--brand-600);
-  color: #fff;
-  border-color: var(--brand-600);
+  background: linear-gradient(135deg, var(--brand-500), var(--brand-600));
+  color: var(--brand-900); /* near-black text on lime for contrast */
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(198, 241, 53, 0.30);
 }
 .btn-primary:hover:not(:disabled) {
-  background: var(--brand-700);
-  border-color: var(--brand-700);
-  box-shadow: 0 0 0 3px var(--brand-100);
+  background: linear-gradient(135deg, var(--brand-600), var(--brand-700));
+  box-shadow: 0 4px 16px rgba(198, 241, 53, 0.45);
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
@@ -225,8 +226,8 @@ img, video { max-width: 100%; display: block; }
 }
 .input:focus {
   outline: none;
-  border-color: var(--brand-500);
-  box-shadow: 0 0 0 3px var(--brand-100);
+  border-color: var(--brand-500); /* lime focus ring */
+  box-shadow: 0 0 0 3px rgba(198, 241, 53, 0.18);
 }
 .input::placeholder { color: var(--text-muted); }
 
@@ -281,8 +282,8 @@ img, video { max-width: 100%; display: block; }
   color: #f1f5f9;
 }
 .sidebar-link.active {
-  background: var(--brand-600);
-  color: #fff;
+  background: var(--brand-500);
+  color: var(--brand-900); /* near-black on lime */
 }
 
 /* ─── Stats Cards ─────────────────────────────────────────────────────────────── */
@@ -335,7 +336,7 @@ img, video { max-width: 100%; display: block; }
 }
 .product-card:hover {
   box-shadow: var(--shadow-lg);
-  border-color: var(--brand-300, #93c5fd);
+  border-color: var(--brand-200);
   transform: translateY(-2px);
 }
 .product-card-thumb {
@@ -414,4 +415,185 @@ img, video { max-width: 100%; display: block; }
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
+}
+
+/* ─── Typography Italic Accent (Outfit) ─────────────────────────────────────── */
+/* Usage: wrap 1–2 key headline words in <em class="hero-em"> for visual rhythm  */
+.hero-em {
+  font-style: italic;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+}
+
+/* ─── New Component: Highlighter-Text Effect ────────────────────────────────── */
+/* Mimics a marker stroke behind key words; use sparingly in headings            */
+.highlight-word {
+  display: inline;
+  background: var(--brand-500);
+  color: var(--brand-900);
+  padding: 1px 6px;
+  border-radius: 3px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  /* Slightly uneven feel — top/bottom padding differ for a hand-drawn look */
+  padding-top: 0px;
+  padding-bottom: 3px;
+  line-height: 1.35;
+}
+
+/* ─── New Component: Vertical Accent Bar ────────────────────────────────────── */
+/* Place before eyebrow / label microcopy to anchor it visually                  */
+/* Usage: <div class="accent-label">Got a Project?</div>                          */
+.accent-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.accent-label::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  background: var(--brand-500);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ─── New Component: Pill Badge with Dot ────────────────────────────────────── */
+/* Roadmap-style tag row e.g. "AI Applications · SaaS Products"                  */
+/* Usage: <span class="dot-pill">AI Applications</span>                           */
+.dot-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-strong);
+  background: var(--surface-0);
+  letter-spacing: 0.01em;
+  transition: all var(--transition);
+}
+.dot-pill::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--brand-500);
+  flex-shrink: 0;
+}
+.dot-pill:hover {
+  border-color: var(--brand-500);
+  background: var(--brand-50);
+  color: var(--brand-900);
+}
+
+/* ─── New Component: Hero Section Glow ──────────────────────────────────────── */
+/* Radial lime glow for hero/banner sections — apply to a relative container     */
+/* Usage: add class "hero-glow" to your hero section wrapper                      */
+.hero-glow {
+  position: relative;
+  isolation: isolate;
+}
+.hero-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at bottom left,  rgba(198, 241, 53, 0.35), transparent 60%),
+    radial-gradient(circle at top right,    rgba(198, 241, 53, 0.25), transparent 55%);
+  pointer-events: none;
+  z-index: -1;
+}
+/* Optional crosshatch texture overlay */
+.hero-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0,0,0,0.03) 0, rgba(0,0,0,0.03) 1px,
+    transparent 1px, transparent 12px
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ─── Hero Letterbox Bars (cinematic crop, hero sections only) ──────────────── */
+/* Usage: add class "letterbox" to a hero image wrapper                           */
+.letterbox {
+  position: relative;
+  overflow: hidden;
+}
+.letterbox::before,
+.letterbox::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: clamp(16px, 3.5vh, 32px);
+  background: #000;
+  z-index: 2;
+}
+.letterbox::before { top: 0; }
+.letterbox::after  { bottom: 0; }
+
+/* ─── Section 6: Logo Mark — "Impact" Highlighter Treatment ─────────────────── */
+.logo-mark {
+  background: var(--brand-500);      /* #c6f135 */
+  color: #1a1a1a;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  padding: 4px 10px;
+  border-radius: 4px;                /* slightly soft, not a full pill — mimics a marker stroke */
+  display: inline-block;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+/* ─── Section 6: Navbar — Radial Gradient Background ─────────────────────────── */
+.navbar {
+  background-color: var(--surface-0);
+  background-image:
+    radial-gradient(circle at left, rgba(198, 241, 53, 0.25), transparent 55%),
+    radial-gradient(circle at right, rgba(198, 241, 53, 0.15), transparent 60%);
+  border-bottom: 1px solid var(--surface-200);
+}
+
+/* ─── Section 6: Admin Dashboard Top Bar & Surface Utility ──────────────────── */
+.gradient-surface {
+  background-color: var(--surface-0);
+  background-image:
+    radial-gradient(circle at left, rgba(198, 241, 53, 0.25), transparent 55%),
+    radial-gradient(circle at right, rgba(198, 241, 53, 0.15), transparent 60%);
+  border-bottom: 1px solid var(--surface-200);
+}
+
+/* ─── Section 6: Admin Login Page (Restyled to Match Hero) ───────────────────── */
+.admin-login-page {
+  background-color: var(--surface-50);
+  background-image:
+    radial-gradient(circle at bottom left, rgba(198, 241, 53, 0.35), transparent 60%),
+    radial-gradient(circle at top right, rgba(198, 241, 53, 0.25), transparent 55%);
+}
+
+.admin-login-card {
+  background: var(--surface-0);
+  border: 1px solid var(--surface-200);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+.admin-login-card h1 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  color: var(--brand-900);
 }

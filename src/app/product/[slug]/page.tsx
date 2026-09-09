@@ -217,7 +217,7 @@ export default function ProductDetailPage() {
           </div>
           <div style={{ fontSize: '18px', fontWeight: 600, color: '#334155' }}>Product not found</div>
           <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '6px' }}>{(error as Error)?.message}</div>
-          <Link href="/" style={{ color: '#2563eb', fontSize: '14px', marginTop: '16px', display: 'inline-block', fontWeight: 600 }}>← Back to catalogue</Link>
+          <Link href="/" style={{ color: 'var(--brand-900)', fontSize: '14px', marginTop: '16px', display: 'inline-block', fontWeight: 600, textDecoration: 'underline' }}>← Back to catalogue</Link>
         </div>
       </div>
     );
@@ -235,23 +235,24 @@ export default function ProductDetailPage() {
       {lightboxSrc && <Lightbox src={lightboxSrc} alt={product.title} onClose={() => setLightboxSrc(null)} />}
 
       {/* Header */}
-      <header style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', position: 'sticky', top: 0, zIndex: 50 }}>
+      <header className="navbar" style={{ position: 'sticky', top: 0, zIndex: 50 }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', gap: '16px', height: '62px' }}>
-          <Link href="/" style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 900, fontSize: '18px', color: '#1e293b', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ display: 'inline-flex', width: '28px', height: '28px', background: 'linear-gradient(135deg, #2563eb, #7c3aed)', borderRadius: '7px', alignItems: 'center', justifyContent: 'center', fontSize: '14px', color: '#fff' }}>⬡</span>
-            CAD Marketplace
+          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span className="logo-mark" style={{ fontSize: '16px', boxShadow: '0 2px 8px rgba(198, 241, 53, 0.3)' }}>
+              CAD Marketplace
+            </span>
           </Link>
-          <span style={{ color: '#e2e8f0' }}>|</span>
-          <div style={{ display: 'flex', gap: '4px', alignItems: 'center', fontSize: '13px', color: '#94a3b8' }}>
-            <Link href="/" style={{ color: '#94a3b8', textDecoration: 'none' }}>Home</Link>
-            <span style={{ margin: '0 4px' }}>›</span>
+          <span style={{ color: 'var(--surface-300)' }}>|</span>
+          <div style={{ display: 'flex', gap: '4px', alignItems: 'center', fontSize: '13px', color: 'var(--surface-600)' }}>
+            <Link href="/" style={{ color: 'var(--surface-600)', textDecoration: 'none' }}>Home</Link>
+            <span style={{ margin: '0 4px', color: 'var(--text-muted)' }}>›</span>
             {product.category && (
               <>
-                <Link href={`/?category=${product.category.slug}`} style={{ color: '#94a3b8', textDecoration: 'none' }}>{product.category.name}</Link>
-                <span style={{ margin: '0 4px' }}>›</span>
+                <Link href={`/?category=${product.category.slug}`} style={{ color: 'var(--surface-600)', textDecoration: 'none' }}>{product.category.name}</Link>
+                <span style={{ margin: '0 4px', color: 'var(--text-muted)' }}>›</span>
               </>
             )}
-            <span style={{ color: '#475569', fontWeight: 500 }}>{product.title}</span>
+            <span style={{ color: 'var(--surface-900)', fontWeight: 600 }}>{product.title}</span>
           </div>
         </div>
       </header>
@@ -341,7 +342,7 @@ export default function ProductDetailPage() {
                       {downloadMsg || 'Free Download'}
                     </button>
                   ) : (
-                    <button onClick={openCheckout} disabled={buying} style={{ padding: '11px 20px', background: 'linear-gradient(135deg,#2563eb,#1d4ed8)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '14px', cursor: 'pointer', flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                    <button onClick={openCheckout} disabled={buying} style={{ padding: '11px 20px', background: 'linear-gradient(135deg, var(--brand-500), var(--brand-600))', color: 'var(--brand-900)', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '14px', cursor: 'pointer', flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '6px', boxShadow: '0 4px 12px rgba(198, 241, 53, 0.35)' }}>
                       <ShoppingBag size={15} />
                       {buying ? 'Opening…' : 'Buy Now'}
                     </button>
@@ -392,7 +393,7 @@ export default function ProductDetailPage() {
                   </div>
                 ) : (
                   <div>
-                    <button onClick={openCheckout} disabled={buying} style={{ width: '100%', padding: '13px', background: 'linear-gradient(135deg, #2563eb, #1d4ed8)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '15px', cursor: 'pointer', boxShadow: '0 4px 12px rgba(37,99,235,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                    <button onClick={openCheckout} disabled={buying} style={{ width: '100%', padding: '13px', background: 'linear-gradient(135deg, var(--brand-500), var(--brand-600))', color: 'var(--brand-900)', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '15px', cursor: 'pointer', boxShadow: '0 4px 12px rgba(198, 241, 53, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                       <ShoppingBag size={17} />
                       {buying ? 'Opening checkout…' : `Buy Now — $${Number(product.price).toFixed(2)}`}
                     </button>

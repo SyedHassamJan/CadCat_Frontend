@@ -58,12 +58,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }}>
       {/* Logo */}
       <div style={{ padding: '20px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{ width: '34px', height: '34px', background: 'linear-gradient(135deg,#3b82f6,#2563eb)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', color: '#fff', flexShrink: 0 }}>⬡</div>
-          <div>
-            <div style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '14px', lineHeight: 1.2 }}>CAD Marketplace</div>
-            <div style={{ color: '#475569', fontSize: '11px' }}>Admin Portal</div>
-          </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          <span className="logo-mark" style={{ fontSize: '13px', padding: '4px 8px', alignSelf: 'flex-start' }}>
+            CAD Marketplace
+          </span>
+          <span style={{ color: '#94a3b8', fontSize: '11px', fontWeight: 600, paddingLeft: '2px' }}>Admin Portal</span>
         </div>
       </div>
 
@@ -75,13 +74,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Link key={href} href={href} style={{
               display: 'flex', alignItems: 'center', gap: '10px',
               padding: '9px 12px', borderRadius: '8px',
-              color: isActive ? '#fff' : '#94a3b8',
-              fontWeight: 500, fontSize: '14px', textDecoration: 'none',
-              background: isActive ? 'linear-gradient(135deg,#3b82f6,#2563eb)' : 'transparent',
+              color: isActive ? 'var(--brand-900)' : '#94a3b8',
+              fontWeight: isActive ? 700 : 500, fontSize: '14px', textDecoration: 'none',
+              background: isActive ? 'linear-gradient(135deg, var(--brand-500), var(--brand-600))' : 'transparent',
               marginBottom: '2px', transition: 'all 0.15s',
-              boxShadow: isActive ? '0 4px 10px rgba(59,130,246,0.3)' : 'none',
+              boxShadow: isActive ? '0 4px 10px rgba(198, 241, 53, 0.3)' : 'none',
             }}>
-              <Icon size={16} style={{ opacity: 0.85 }} />
+              <Icon size={16} style={{ opacity: isActive ? 1 : 0.85 }} />
               {label}
             </Link>
           );
@@ -107,10 +106,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Drawer */}
       <aside style={{ position: 'fixed', top: 0, left: 0, width: '260px', height: '100vh', background: '#0f172a', zIndex: 999, display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
         <div style={{ padding: '20px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '30px', height: '30px', background: 'linear-gradient(135deg,#3b82f6,#2563eb)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>⬡</div>
-            <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '13px' }}>CAD Marketplace</span>
-          </div>
+          <span className="logo-mark" style={{ fontSize: '13px', padding: '4px 8px' }}>
+            CAD Marketplace
+          </span>
           <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px' }}>
             <X size={20} />
           </button>
@@ -123,9 +121,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Link key={href} href={href} onClick={() => setSidebarOpen(false)} style={{
                 display: 'flex', alignItems: 'center', gap: '12px',
                 padding: '11px 14px', borderRadius: '8px',
-                color: isActive ? '#fff' : '#94a3b8',
-                fontWeight: 500, fontSize: '15px', textDecoration: 'none',
-                background: isActive ? 'linear-gradient(135deg,#3b82f6,#2563eb)' : 'transparent',
+                color: isActive ? 'var(--brand-900)' : '#94a3b8',
+                fontWeight: isActive ? 700 : 500, fontSize: '15px', textDecoration: 'none',
+                background: isActive ? 'linear-gradient(135deg, var(--brand-500), var(--brand-600))' : 'transparent',
                 marginBottom: '4px',
               }}>
                 <Icon size={18} />
@@ -148,13 +146,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   /* ── Mobile top bar ── */
   const MobileTopBar = (
-    <header style={{ position: 'fixed', top: 0, left: 0, right: 0, height: '52px', background: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', zIndex: 90, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-      <button onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '6px' }}>
+    <header className="gradient-surface" style={{ position: 'fixed', top: 0, left: 0, right: 0, height: '52px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', zIndex: 90 }}>
+      <button onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', color: 'var(--brand-900)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '6px' }}>
         <Menu size={20} />
       </button>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <div style={{ width: '24px', height: '24px', background: 'linear-gradient(135deg,#3b82f6,#2563eb)', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '12px' }}>⬡</div>
-        <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '14px' }}>Admin</span>
+        <span className="logo-mark" style={{ fontSize: '12px', padding: '3px 8px' }}>
+          CAD Marketplace
+        </span>
       </div>
       <div style={{ width: '30px' }} /> {/* balance */}
     </header>

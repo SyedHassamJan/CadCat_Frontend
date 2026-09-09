@@ -49,13 +49,15 @@ export default function BrowsePage() {
   return (
     <>
       {/* Nav */}
-      <header style={{ background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(16px)', borderBottom: '1px solid #e2e8f0', position: 'sticky', top: 0, zIndex: 50 }}>
+      <header className="navbar" style={{ position: 'sticky', top: 0, zIndex: 50 }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', gap: '24px', height: '60px' }}>
-          <Link href="/" style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: '18px', color: '#0f172a', textDecoration: 'none' }}>
-            ⬡ CAD Marketplace
+          <Link href="/" style={{ textDecoration: 'none' }}>
+            <span className="logo-mark" style={{ fontSize: '16px', boxShadow: '0 2px 8px rgba(198, 241, 53, 0.3)' }}>
+              CAD Marketplace
+            </span>
           </Link>
           <nav style={{ display: 'flex', gap: '4px' }}>
-            <Link href="/browse" style={{ padding: '6px 14px', borderRadius: '8px', color: '#2563eb', fontWeight: 600, fontSize: '14px', textDecoration: 'none', background: '#eff6ff' }}>Browse</Link>
+            <Link href="/browse" style={{ padding: '6px 14px', borderRadius: '8px', color: 'var(--brand-900)', fontWeight: 700, fontSize: '14px', textDecoration: 'none', background: 'var(--brand-500)' }}>Browse</Link>
           </nav>
         </div>
       </header>
@@ -73,7 +75,7 @@ export default function BrowsePage() {
               <div style={{ fontSize: '12px', fontWeight: 600, color: '#64748b', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Category</div>
               <button
                 onClick={() => setFilter('category', '')}
-                style={{ display: 'block', width: '100%', textAlign: 'left', padding: '6px 10px', borderRadius: '7px', background: !filters.category ? '#eff6ff' : 'transparent', color: !filters.category ? '#2563eb' : '#475569', border: 'none', cursor: 'pointer', fontWeight: !filters.category ? 600 : 400, fontSize: '14px', marginBottom: '2px' }}
+                style={{ display: 'block', width: '100%', textAlign: 'left', padding: '6px 10px', borderRadius: '7px', background: !filters.category ? 'var(--brand-50)' : 'transparent', color: !filters.category ? 'var(--brand-900)' : '#475569', border: 'none', cursor: 'pointer', fontWeight: !filters.category ? 700 : 400, fontSize: '14px', marginBottom: '2px' }}
               >
                 All Categories
               </button>
@@ -81,7 +83,7 @@ export default function BrowsePage() {
                 <button
                   key={c.id}
                   onClick={() => setFilter('category', c.slug)}
-                  style={{ display: 'block', width: '100%', textAlign: 'left', padding: '6px 10px', borderRadius: '7px', background: filters.category === c.slug ? '#eff6ff' : 'transparent', color: filters.category === c.slug ? '#2563eb' : '#475569', border: 'none', cursor: 'pointer', fontWeight: filters.category === c.slug ? 600 : 400, fontSize: '14px', marginBottom: '2px' }}
+                  style={{ display: 'block', width: '100%', textAlign: 'left', padding: '6px 10px', borderRadius: '7px', background: filters.category === c.slug ? 'var(--brand-50)' : 'transparent', color: filters.category === c.slug ? 'var(--brand-900)' : '#475569', border: 'none', cursor: 'pointer', fontWeight: filters.category === c.slug ? 700 : 400, fontSize: '14px', marginBottom: '2px' }}
                 >
                   {c.name}
                 </button>
@@ -93,7 +95,7 @@ export default function BrowsePage() {
               <div style={{ fontSize: '12px', fontWeight: 600, color: '#64748b', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Format</div>
               <button
                 onClick={() => setFilter('format', '')}
-                style={{ padding: '4px 12px', borderRadius: '100px', border: '1px solid ' + (!filters.format ? '#93c5fd' : '#e2e8f0'), background: !filters.format ? '#dbeafe' : '#fff', color: !filters.format ? '#1d4ed8' : '#64748b', fontSize: '12px', fontWeight: 600, cursor: 'pointer', marginRight: '6px', marginBottom: '6px' }}
+                style={{ padding: '4px 12px', borderRadius: '100px', border: '1px solid ' + (!filters.format ? 'var(--brand-500)' : '#e2e8f0'), background: !filters.format ? 'var(--brand-50)' : '#fff', color: !filters.format ? 'var(--brand-900)' : '#64748b', fontSize: '12px', fontWeight: !filters.format ? 700 : 600, cursor: 'pointer', marginRight: '6px', marginBottom: '6px' }}
               >
                 All
               </button>
@@ -101,7 +103,7 @@ export default function BrowsePage() {
                 <button
                   key={fmt}
                   onClick={() => setFilter('format', fmt)}
-                  style={{ padding: '4px 12px', borderRadius: '100px', border: '1px solid ' + (filters.format === fmt ? '#93c5fd' : '#e2e8f0'), background: filters.format === fmt ? '#dbeafe' : '#fff', color: filters.format === fmt ? '#1d4ed8' : '#64748b', fontSize: '12px', fontWeight: 600, cursor: 'pointer', marginRight: '6px', marginBottom: '6px', textTransform: 'uppercase' }}
+                  style={{ padding: '4px 12px', borderRadius: '100px', border: '1px solid ' + (filters.format === fmt ? 'var(--brand-500)' : '#e2e8f0'), background: filters.format === fmt ? 'var(--brand-50)' : '#fff', color: filters.format === fmt ? 'var(--brand-900)' : '#64748b', fontSize: '12px', fontWeight: filters.format === fmt ? 700 : 600, cursor: 'pointer', marginRight: '6px', marginBottom: '6px', textTransform: 'uppercase' }}
                 >
                   {fmt}
                 </button>
@@ -115,7 +117,7 @@ export default function BrowsePage() {
                 <button
                   key={value}
                   onClick={() => setFilter('isFree', value)}
-                  style={{ display: 'block', width: '100%', textAlign: 'left', padding: '6px 10px', borderRadius: '7px', background: filters.isFree === value ? '#eff6ff' : 'transparent', color: filters.isFree === value ? '#2563eb' : '#475569', border: 'none', cursor: 'pointer', fontWeight: filters.isFree === value ? 600 : 400, fontSize: '14px', marginBottom: '2px' }}
+                  style={{ display: 'block', width: '100%', textAlign: 'left', padding: '6px 10px', borderRadius: '7px', background: filters.isFree === value ? 'var(--brand-50)' : 'transparent', color: filters.isFree === value ? 'var(--brand-900)' : '#475569', border: 'none', cursor: 'pointer', fontWeight: filters.isFree === value ? 700 : 400, fontSize: '14px', marginBottom: '2px' }}
                 >
                   {label}
                 </button>

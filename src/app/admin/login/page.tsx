@@ -30,81 +30,61 @@ export default function AdminLoginPage() {
 
   return (
     <div
+      className="admin-login-page"
       style={{
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)',
         padding: '24px',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      {/* Decorative glow */}
       <div
-        style={{
-          position: 'fixed',
-          top: '20%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '600px',
-          height: '300px',
-          background: 'radial-gradient(ellipse, rgba(59,130,246,0.15) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }}
-      />
-
-      <div
-        className="animate-fade-in"
+        className="admin-login-card animate-fade-in"
         style={{
           width: '100%',
           maxWidth: '400px',
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.08)',
-          borderRadius: '20px',
           padding: '40px',
-          backdropFilter: 'blur(20px)',
-          boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
           position: 'relative',
           zIndex: 1,
         }}
       >
         {/* Logo */}
-        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <div
-            style={{
-              width: '52px',
-              height: '52px',
-              background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
-              borderRadius: '14px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto 16px',
-              fontSize: '24px',
-              boxShadow: '0 8px 20px rgba(59,130,246,0.4)',
-            }}
-          >
-            ⬡
+        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+          <div style={{ marginBottom: '14px' }}>
+            <span
+              className="logo-mark"
+              style={{
+                fontSize: '18px',
+                padding: '6px 14px',
+                boxShadow: '0 0 24px rgba(198, 241, 53, 0.35)',
+              }}
+            >
+              ⬡ CAD Marketplace
+            </span>
           </div>
           <h1
             style={{
               fontSize: '22px',
-              fontWeight: 700,
-              color: '#f1f5f9',
+              fontWeight: 800,
+              fontStyle: 'italic',
+              color: 'var(--brand-900)',
               fontFamily: "'Outfit', sans-serif",
               marginBottom: '4px',
             }}
           >
-            CAD Marketplace
+            Admin Portal
           </h1>
-          <p style={{ color: '#64748b', fontSize: '14px' }}>Admin Portal</p>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>Sign in to manage your marketplace</p>
         </div>
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div>
             <label
               htmlFor="email"
-              style={{ display: 'block', color: '#94a3b8', fontSize: '13px', fontWeight: 500, marginBottom: '6px' }}
+              style={{ display: 'block', color: 'var(--text-secondary)', fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}
             >
               Email address
             </label>
@@ -119,23 +99,29 @@ export default function AdminLoginPage() {
               style={{
                 width: '100%',
                 padding: '10px 14px',
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: '10px',
-                color: '#f1f5f9',
+                background: 'var(--surface-50)',
+                border: '1px solid var(--surface-200)',
+                borderRadius: 'var(--radius)',
+                color: 'var(--text-primary)',
                 fontSize: '14px',
                 outline: 'none',
-                transition: 'border-color 0.15s',
+                transition: 'border-color 0.15s, box-shadow 0.15s',
               }}
-              onFocus={(e) => (e.target.style.borderColor = 'rgba(59,130,246,0.6)')}
-              onBlur={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'var(--brand-500)';
+                e.target.style.boxShadow = '0 0 0 3px rgba(198, 241, 53, 0.2)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'var(--surface-200)';
+                e.target.style.boxShadow = 'none';
+              }}
             />
           </div>
 
           <div>
             <label
               htmlFor="password"
-              style={{ display: 'block', color: '#94a3b8', fontSize: '13px', fontWeight: 500, marginBottom: '6px' }}
+              style={{ display: 'block', color: 'var(--text-secondary)', fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}
             >
               Password
             </label>
@@ -150,28 +136,35 @@ export default function AdminLoginPage() {
               style={{
                 width: '100%',
                 padding: '10px 14px',
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: '10px',
-                color: '#f1f5f9',
+                background: 'var(--surface-50)',
+                border: '1px solid var(--surface-200)',
+                borderRadius: 'var(--radius)',
+                color: 'var(--text-primary)',
                 fontSize: '14px',
                 outline: 'none',
-                transition: 'border-color 0.15s',
+                transition: 'border-color 0.15s, box-shadow 0.15s',
               }}
-              onFocus={(e) => (e.target.style.borderColor = 'rgba(59,130,246,0.6)')}
-              onBlur={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'var(--brand-500)';
+                e.target.style.boxShadow = '0 0 0 3px rgba(198, 241, 53, 0.2)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'var(--surface-200)';
+                e.target.style.boxShadow = 'none';
+              }}
             />
           </div>
 
           {error && (
             <div
               style={{
-                background: 'rgba(239,68,68,0.1)',
-                border: '1px solid rgba(239,68,68,0.25)',
+                background: 'rgba(239,68,68,0.08)',
+                border: '1px solid rgba(239,68,68,0.2)',
                 borderRadius: '8px',
                 padding: '10px 14px',
-                color: '#fca5a5',
+                color: '#dc2626',
                 fontSize: '13px',
+                fontWeight: 500,
               }}
             >
               {error}
@@ -184,16 +177,16 @@ export default function AdminLoginPage() {
             style={{
               width: '100%',
               padding: '11px',
-              background: loading ? '#1d4ed8' : 'linear-gradient(135deg, #3b82f6, #2563eb)',
-              color: '#fff',
+              background: loading ? 'var(--brand-600)' : 'linear-gradient(135deg, var(--brand-500), var(--brand-600))',
+              color: 'var(--brand-900)',
               border: 'none',
-              borderRadius: '10px',
+              borderRadius: 'var(--radius)',
               fontSize: '15px',
-              fontWeight: 600,
+              fontWeight: 700,
               cursor: loading ? 'not-allowed' : 'pointer',
               marginTop: '8px',
               transition: 'all 0.15s',
-              boxShadow: '0 4px 12px rgba(59,130,246,0.3)',
+              boxShadow: '0 4px 12px rgba(198, 241, 53, 0.35)',
               opacity: loading ? 0.8 : 1,
             }}
           >

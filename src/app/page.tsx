@@ -76,9 +76,9 @@ export default function HomePage() {
       <div style={{ marginBottom: '20px' }}>
         <div style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Format</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
-          <button onClick={() => setFilter('format', '')} style={{ padding: '3px 10px', borderRadius: '100px', border: '1px solid ' + (!filters.format ? '#2563eb' : '#e2e8f0'), background: !filters.format ? '#eff6ff' : '#fff', color: !filters.format ? '#2563eb' : '#64748b', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>All</button>
+          <button onClick={() => setFilter('format', '')} style={{ padding: '3px 10px', borderRadius: '100px', border: '1px solid ' + (!filters.format ? 'var(--brand-500)' : '#e2e8f0'), background: !filters.format ? 'var(--brand-50)' : '#fff', color: !filters.format ? 'var(--brand-900)' : '#64748b', fontSize: '11px', fontWeight: !filters.format ? 700 : 600, cursor: 'pointer' }}>All</button>
           {FORMATS.map((fmt) => (
-            <button key={fmt} onClick={() => setFilter('format', fmt)} style={{ padding: '3px 10px', borderRadius: '100px', border: '1px solid ' + (filters.format === fmt ? '#2563eb' : '#e2e8f0'), background: filters.format === fmt ? '#eff6ff' : '#fff', color: filters.format === fmt ? '#2563eb' : '#64748b', fontSize: '11px', fontWeight: 600, cursor: 'pointer', textTransform: 'uppercase' }}>{fmt}</button>
+            <button key={fmt} onClick={() => setFilter('format', fmt)} style={{ padding: '3px 10px', borderRadius: '100px', border: '1px solid ' + (filters.format === fmt ? 'var(--brand-500)' : '#e2e8f0'), background: filters.format === fmt ? 'var(--brand-50)' : '#fff', color: filters.format === fmt ? 'var(--brand-900)' : '#64748b', fontSize: '11px', fontWeight: filters.format === fmt ? 700 : 600, cursor: 'pointer', textTransform: 'uppercase' }}>{fmt}</button>
           ))}
         </div>
       </div>
@@ -87,7 +87,7 @@ export default function HomePage() {
       <div style={{ marginBottom: '20px' }}>
         <div style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Price</div>
         {[{ label: 'All', value: '' }, { label: 'Free', value: 'true' }, { label: 'Paid', value: 'false' }].map(({ label, value }) => (
-          <button key={value} onClick={() => setFilter('isFree', value)} style={{ display: 'block', width: '100%', textAlign: 'left', padding: '6px 10px', borderRadius: '8px', background: filters.isFree === value ? '#eff6ff' : 'transparent', color: filters.isFree === value ? '#2563eb' : '#475569', border: 'none', cursor: 'pointer', fontWeight: filters.isFree === value ? 600 : 400, fontSize: '13px', marginBottom: '2px' }}>{label}</button>
+          <button key={value} onClick={() => setFilter('isFree', value)} style={{ display: 'block', width: '100%', textAlign: 'left', padding: '6px 10px', borderRadius: '8px', background: filters.isFree === value ? 'var(--brand-50)' : 'transparent', color: filters.isFree === value ? 'var(--brand-900)' : '#475569', border: 'none', cursor: 'pointer', fontWeight: filters.isFree === value ? 700 : 400, fontSize: '13px', marginBottom: '2px' }}>{label}</button>
         ))}
       </div>
 
@@ -108,12 +108,13 @@ export default function HomePage() {
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc', fontFamily: "'Inter', sans-serif" }}>
       {/* Header */}
-      <header style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', position: 'sticky', top: 0, zIndex: 50 }}>
+      <header className="navbar" style={{ position: 'sticky', top: 0, zIndex: 50 }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 16px', display: 'flex', alignItems: 'center', gap: '12px', height: '58px' }}>
           {/* Logo */}
-          <Link href="/" style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 900, fontSize: isMobile ? '16px' : '20px', color: '#1e293b', textDecoration: 'none', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-            <span style={{ display: 'inline-flex', width: '30px', height: '30px', background: 'linear-gradient(135deg, #2563eb, #7c3aed)', borderRadius: '8px', alignItems: 'center', justifyContent: 'center', fontSize: '14px', color: '#fff' }}>⬡</span>
-            {!isMobile && 'CAD Marketplace'}
+          <Link href="/" style={{ textDecoration: 'none', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+            <span className="logo-mark" style={{ fontSize: isMobile ? '14px' : '17px', boxShadow: '0 2px 8px rgba(198, 241, 53, 0.3)' }}>
+              CAD Marketplace
+            </span>
           </Link>
 
           {/* Search bar */}
@@ -132,7 +133,7 @@ export default function HomePage() {
           {isMobile && (
             <button
               onClick={() => setFilterOpen(f => !f)}
-              style={{ padding: '8px 12px', borderRadius: '9px', border: '1px solid #e2e8f0', background: filterOpen ? '#2563eb' : '#fff', color: filterOpen ? '#fff' : '#475569', fontSize: '13px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+              style={{ padding: '8px 12px', borderRadius: '9px', border: '1px solid ' + (filterOpen ? 'var(--brand-500)' : '#e2e8f0'), background: filterOpen ? 'var(--brand-500)' : '#fff', color: filterOpen ? 'var(--brand-900)' : '#475569', fontSize: '13px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}
             >
               <SlidersHorizontal size={13} /> Filter
             </button>
@@ -151,9 +152,9 @@ export default function HomePage() {
       {cats.length > 0 && (
         <div style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', overflowX: 'auto' }}>
           <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 16px', display: 'flex', gap: '4px', height: '46px', alignItems: 'center', whiteSpace: 'nowrap' }}>
-            <button onClick={() => setFilter('category', '')} style={{ padding: '5px 14px', borderRadius: '100px', border: 'none', background: !filters.category ? '#2563eb' : 'transparent', color: !filters.category ? '#fff' : '#64748b', fontSize: '13px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.15s', flexShrink: 0 }}>All</button>
+            <button onClick={() => setFilter('category', '')} style={{ padding: '5px 14px', borderRadius: '100px', border: 'none', background: !filters.category ? 'var(--brand-500)' : 'transparent', color: !filters.category ? 'var(--brand-900)' : '#64748b', fontSize: '13px', fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.15s', flexShrink: 0 }}>All</button>
             {cats.map((c: any) => (
-              <button key={c.id} onClick={() => setFilter('category', c.slug)} style={{ padding: '5px 14px', borderRadius: '100px', border: 'none', background: filters.category === c.slug ? '#2563eb' : 'transparent', color: filters.category === c.slug ? '#fff' : '#64748b', fontSize: '13px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.15s', flexShrink: 0 }}>
+              <button key={c.id} onClick={() => setFilter('category', c.slug)} style={{ padding: '5px 14px', borderRadius: '100px', border: 'none', background: filters.category === c.slug ? 'var(--brand-500)' : 'transparent', color: filters.category === c.slug ? 'var(--brand-900)' : '#64748b', fontSize: '13px', fontWeight: filters.category === c.slug ? 700 : 600, cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.15s', flexShrink: 0 }}>
                 {c.name}
               </button>
             ))}
@@ -223,7 +224,7 @@ export default function HomePage() {
                           <div style={{ fontSize: '42px', color: '#cbd5e1' }}>⬡</div>
                         )}
                         {/* Price badge */}
-                        <div style={{ position: 'absolute', top: '8px', right: '8px', background: p.isFree ? '#22c55e' : '#2563eb', color: '#fff', padding: '3px 8px', borderRadius: '100px', fontSize: '11px', fontWeight: 700, boxShadow: '0 2px 6px rgba(0,0,0,0.2)' }}>
+                        <div style={{ position: 'absolute', top: '8px', right: '8px', background: p.isFree ? '#10b981' : 'var(--brand-500)', color: p.isFree ? '#fff' : 'var(--brand-900)', padding: '3px 8px', borderRadius: '100px', fontSize: '11px', fontWeight: 700, boxShadow: p.isFree ? '0 2px 6px rgba(16,185,129,0.3)' : '0 2px 6px rgba(198,241,53,0.4)' }}>
                           {p.isFree ? 'Free' : `$${Number(p.price).toFixed(0)}`}
                         </div>
                         {/* Format badge */}
@@ -240,7 +241,7 @@ export default function HomePage() {
                           {p.title}
                         </div>
                         {p.category && (
-                          <div style={{ fontSize: '11px', color: '#2563eb', fontWeight: 500 }}>
+                          <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 500 }}>
                             {p.category.name}
                           </div>
                         )}
