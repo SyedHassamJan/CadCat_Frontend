@@ -36,8 +36,11 @@ export default function AdminProductsPage() {
     <div className="animate-fade-in">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
         <div>
-          <h1 style={{ fontSize: '24px', fontWeight: 800, color: '#0f172a', marginBottom: '2px' }}>Products</h1>
-          <p style={{ color: '#64748b', fontSize: '14px' }}>
+          <div className="accent-label" style={{ marginBottom: '8px' }}>Catalogue Management</div>
+          <h1 style={{ fontSize: '28px', fontWeight: 800, color: 'var(--brand-900)', fontFamily: "'Outfit', sans-serif", letterSpacing: '-0.02em', marginBottom: '4px' }}>
+            Products
+          </h1>
+          <p style={{ color: 'var(--surface-600)', fontSize: '14px' }}>
             {meta ? `${meta.total} products total` : 'Loading...'}
           </p>
         </div>
@@ -45,7 +48,7 @@ export default function AdminProductsPage() {
           href="/admin/products/new"
           className="btn btn-primary"
           style={{
-            padding: '10px 18px',
+            padding: '10px 20px',
             fontSize: '14px',
           }}
         >
@@ -53,21 +56,21 @@ export default function AdminProductsPage() {
         </Link>
       </div>
 
-      <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '14px', overflow: 'hidden' }}>
+      <div style={{ background: '#fff', border: '1px solid var(--surface-200)', borderRadius: '14px', boxShadow: '0 2px 12px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
         {isLoading ? (
           <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}>Loading products…</div>
         ) : (
           <table className="data-table">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Type</th>
-                <th>Format</th>
-                <th>Price</th>
-                <th>Downloads</th>
-                <th>Created</th>
-                <th>Actions</th>
+                <th style={{ background: 'var(--surface-50)', padding: '12px 16px', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--surface-600)', borderBottom: '1px solid var(--surface-200)' }}>Title</th>
+                <th style={{ background: 'var(--surface-50)', padding: '12px 16px', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--surface-600)', borderBottom: '1px solid var(--surface-200)' }}>Status</th>
+                <th style={{ background: 'var(--surface-50)', padding: '12px 16px', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--surface-600)', borderBottom: '1px solid var(--surface-200)' }}>Type</th>
+                <th style={{ background: 'var(--surface-50)', padding: '12px 16px', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--surface-600)', borderBottom: '1px solid var(--surface-200)' }}>Format</th>
+                <th style={{ background: 'var(--surface-50)', padding: '12px 16px', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--surface-600)', borderBottom: '1px solid var(--surface-200)' }}>Price</th>
+                <th style={{ background: 'var(--surface-50)', padding: '12px 16px', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--surface-600)', borderBottom: '1px solid var(--surface-200)' }}>Downloads</th>
+                <th style={{ background: 'var(--surface-50)', padding: '12px 16px', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--surface-600)', borderBottom: '1px solid var(--surface-200)' }}>Created</th>
+                <th style={{ background: 'var(--surface-50)', padding: '12px 16px', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--surface-600)', borderBottom: '1px solid var(--surface-200)' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -75,7 +78,7 @@ export default function AdminProductsPage() {
                 <tr>
                   <td colSpan={8} style={{ textAlign: 'center', padding: '40px', color: '#94a3b8' }}>
                     No products yet.{' '}
-                    <Link href="/admin/products/new" style={{ color: '#3b82f6', fontWeight: 600 }}>
+                    <Link href="/admin/products/new" style={{ color: 'var(--brand-900)', fontWeight: 700, textDecoration: 'underline' }}>
                       Add one
                     </Link>
                   </td>
@@ -85,13 +88,13 @@ export default function AdminProductsPage() {
                   const badge = STATUS_BADGE[p.status] || STATUS_BADGE.DRAFT;
                   return (
                     <tr key={p.id}>
-                      <td style={{ fontWeight: 600, maxWidth: '240px' }}>
+                      <td style={{ fontWeight: 700, color: 'var(--brand-900)', maxWidth: '240px', padding: '14px 16px', borderBottom: '1px solid var(--surface-200)' }}>
                         <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {p.title}
                         </div>
-                        <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '2px' }}>{p.slug}</div>
+                        <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '2px', fontWeight: 400 }}>{p.slug}</div>
                       </td>
-                      <td>
+                      <td style={{ padding: '14px 16px', borderBottom: '1px solid var(--surface-200)' }}>
                         <span
                           style={{
                             background: badge.bg,
@@ -105,21 +108,22 @@ export default function AdminProductsPage() {
                           {badge.label}
                         </span>
                       </td>
-                      <td>
+                      <td style={{ padding: '14px 16px', borderBottom: '1px solid var(--surface-200)' }}>
                         <span
                           style={{
-                            background: p.isFree ? '#d1fae5' : '#ede9fe',
-                            color: p.isFree ? '#065f46' : '#5b21b6',
+                            background: p.isFree ? '#d1fae5' : 'var(--brand-50)',
+                            color: p.isFree ? '#065f46' : 'var(--brand-900)',
+                            border: p.isFree ? 'none' : '1px solid var(--brand-200)',
                             padding: '3px 10px',
                             borderRadius: '100px',
                             fontSize: '12px',
-                            fontWeight: 600,
+                            fontWeight: 700,
                           }}
                         >
                           {p.isFree ? 'Free' : 'Paid'}
                         </span>
                       </td>
-                      <td>
+                      <td style={{ padding: '14px 16px', borderBottom: '1px solid var(--surface-200)' }}>
                         {p.fileFormat ? (
                           <span
                             style={{
@@ -128,7 +132,7 @@ export default function AdminProductsPage() {
                               padding: '3px 10px',
                               borderRadius: '100px',
                               fontSize: '12px',
-                              fontWeight: 600,
+                              fontWeight: 700,
                               textTransform: 'uppercase',
                             }}
                           >
@@ -138,25 +142,27 @@ export default function AdminProductsPage() {
                           <span style={{ color: '#cbd5e1', fontSize: '13px' }}>—</span>
                         )}
                       </td>
-                      <td style={{ color: p.isFree ? '#10b981' : '#0f172a', fontWeight: 500 }}>
+                      <td style={{ padding: '14px 16px', borderBottom: '1px solid var(--surface-200)', color: p.isFree ? '#10b981' : 'var(--brand-900)', fontWeight: 700 }}>
                         {p.isFree ? 'Free' : `$${Number(p.price || 0).toFixed(2)}`}
                       </td>
-                      <td style={{ color: '#64748b' }}>{p.downloadCount}</td>
-                      <td style={{ color: '#64748b', fontSize: '13px' }}>
+                      <td style={{ padding: '14px 16px', borderBottom: '1px solid var(--surface-200)', color: 'var(--surface-600)', fontWeight: 600 }}>{p.downloadCount}</td>
+                      <td style={{ padding: '14px 16px', borderBottom: '1px solid var(--surface-200)', color: 'var(--surface-600)', fontSize: '13px' }}>
                         {new Date(p.createdAt).toLocaleDateString()}
                       </td>
-                      <td>
+                      <td style={{ padding: '14px 16px', borderBottom: '1px solid var(--surface-200)' }}>
                         <div style={{ display: 'flex', gap: '8px' }}>
                           <Link
                             href={`/admin/products/${p.id}`}
                             style={{
                               padding: '5px 12px',
-                              background: '#f1f5f9',
-                              color: '#334155',
+                              background: 'var(--surface-100)',
+                              color: 'var(--surface-800)',
                               borderRadius: '7px',
                               fontSize: '13px',
-                              fontWeight: 500,
+                              fontWeight: 600,
                               textDecoration: 'none',
+                              border: '1px solid var(--surface-200)',
+                              transition: 'all 0.15s',
                             }}
                           >
                             Edit
@@ -167,11 +173,12 @@ export default function AdminProductsPage() {
                               padding: '5px 12px',
                               background: '#fee2e2',
                               color: '#991b1b',
-                              border: 'none',
+                              border: '1px solid #fecaca',
                               borderRadius: '7px',
                               fontSize: '13px',
-                              fontWeight: 500,
+                              fontWeight: 600,
                               cursor: 'pointer',
+                              transition: 'all 0.15s',
                             }}
                           >
                             Delete

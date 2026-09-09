@@ -40,19 +40,22 @@ export default function AdminTagsPage() {
 
   return (
     <div className="animate-fade-in" style={{ maxWidth: '700px' }}>
-      <h1 style={{ fontSize: '24px', fontWeight: 800, color: '#0f172a', marginBottom: '24px' }}>Tags</h1>
+      <div style={{ marginBottom: '24px' }}>
+        <div className="accent-label" style={{ marginBottom: '8px' }}>Metadata</div>
+        <h1 style={{ fontSize: '28px', fontWeight: 800, color: 'var(--brand-900)', fontFamily: "'Outfit', sans-serif", letterSpacing: '-0.02em', marginBottom: '4px' }}>Tags</h1>
+      </div>
 
       <div
         style={{
           background: '#fff',
-          border: '1px solid #e2e8f0',
+          border: '1px solid var(--surface-200)',
           borderRadius: '14px',
           padding: '24px',
           marginBottom: '20px',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
         }}
       >
-        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#0f172a', marginBottom: '16px' }}>Add Tag</h2>
+        <h2 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--brand-900)', marginBottom: '16px' }}>Add Tag</h2>
         {error && (
           <div style={{ background: '#fee2e2', color: '#991b1b', borderRadius: '8px', padding: '10px 14px', marginBottom: '12px', fontSize: '13px' }}>
             {error}
@@ -68,7 +71,7 @@ export default function AdminTagsPage() {
             style={{
               flex: 1,
               padding: '9px 12px',
-              border: '1px solid #e2e8f0',
+              border: '1px solid var(--surface-200)',
               borderRadius: '9px',
               fontSize: '14px',
               outline: 'none',
@@ -77,18 +80,13 @@ export default function AdminTagsPage() {
           <button
             type="submit"
             disabled={createMutation.isPending}
+            className="btn btn-primary"
             style={{
               padding: '9px 20px',
-              background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '9px',
-              fontWeight: 600,
               fontSize: '14px',
-              cursor: 'pointer',
             }}
           >
-            {createMutation.isPending ? 'Adding…' : 'Add'}
+            {createMutation.isPending ? 'Adding…' : 'Add Tag'}
           </button>
         </form>
       </div>
