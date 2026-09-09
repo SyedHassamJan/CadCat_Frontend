@@ -45,9 +45,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   /* ── Desktop sidebar ── */
   const DesktopSidebar = (
-    <aside style={{
+    <aside className="sidebar" style={{
       width: '240px',
-      background: '#0f172a',
       position: 'fixed',
       top: 0, left: 0,
       height: '100vh',
@@ -57,12 +56,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       zIndex: 40,
     }}>
       {/* Logo */}
-      <div style={{ padding: '20px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <div style={{ padding: '20px 16px', borderBottom: '1px solid var(--surface-200)' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-          <span className="logo-mark" style={{ fontSize: '13px', padding: '4px 8px', alignSelf: 'flex-start' }}>
+          <span className="logo-mark" style={{ fontSize: '13px', padding: '4px 8px', alignSelf: 'flex-start', boxShadow: '0 2px 8px rgba(198, 241, 53, 0.3)' }}>
             CAD Marketplace
           </span>
-          <span style={{ color: '#94a3b8', fontSize: '11px', fontWeight: 600, paddingLeft: '2px' }}>Admin Portal</span>
+          <span style={{ color: 'var(--surface-600)', fontSize: '11px', fontWeight: 600, paddingLeft: '2px' }}>Admin Portal</span>
         </div>
       </div>
 
@@ -73,14 +72,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           return (
             <Link key={href} href={href} style={{
               display: 'flex', alignItems: 'center', gap: '10px',
-              padding: '9px 12px', borderRadius: '8px',
-              color: isActive ? 'var(--brand-900)' : '#94a3b8',
+              padding: '9px 12px', borderRadius: 'var(--radius)',
+              color: isActive ? 'var(--brand-900)' : 'var(--surface-700)',
               fontWeight: isActive ? 700 : 500, fontSize: '14px', textDecoration: 'none',
-              background: isActive ? 'linear-gradient(135deg, var(--brand-500), var(--brand-600))' : 'transparent',
+              background: isActive ? 'var(--brand-500)' : 'transparent',
               marginBottom: '2px', transition: 'all 0.15s',
-              boxShadow: isActive ? '0 4px 10px rgba(198, 241, 53, 0.3)' : 'none',
+              boxShadow: isActive ? '0 4px 10px rgba(198, 241, 53, 0.35)' : 'none',
             }}>
-              <Icon size={16} style={{ opacity: isActive ? 1 : 0.85 }} />
+              <Icon size={16} style={{ opacity: isActive ? 1 : 0.8 }} />
               {label}
             </Link>
           );
@@ -88,10 +87,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </nav>
 
       {/* User info + logout */}
-      <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-        <div style={{ color: '#64748b', fontSize: '12px', marginBottom: '4px' }}>Signed in as</div>
-        <div style={{ color: '#94a3b8', fontSize: '13px', fontWeight: 500, marginBottom: '10px', wordBreak: 'break-all' }}>{admin?.email}</div>
-        <button onClick={handleLogout} style={{ width: '100%', padding: '8px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: '8px', color: '#fca5a5', fontSize: '13px', fontWeight: 500, cursor: 'pointer' }}>
+      <div style={{ padding: '14px 16px', borderTop: '1px solid var(--surface-200)' }}>
+        <div style={{ color: 'var(--surface-600)', fontSize: '11px', fontWeight: 500, marginBottom: '2px' }}>Signed in as</div>
+        <div style={{ color: 'var(--surface-800)', fontSize: '13px', fontWeight: 600, marginBottom: '8px', wordBreak: 'break-all' }}>{admin?.email}</div>
+        <button
+          onClick={handleLogout}
+          style={{
+            background: 'none',
+            border: 'none',
+            padding: 0,
+            color: '#dc2626',
+            fontSize: '13px',
+            fontWeight: 600,
+            cursor: 'pointer',
+            textAlign: 'left',
+          }}
+        >
           Sign out
         </button>
       </div>
@@ -102,14 +113,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const MobileDrawer = sidebarOpen && (
     <>
       {/* Backdrop */}
-      <div onClick={() => setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 998 }} />
+      <div onClick={() => setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 998 }} />
       {/* Drawer */}
-      <aside style={{ position: 'fixed', top: 0, left: 0, width: '260px', height: '100vh', background: '#0f172a', zIndex: 999, display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
-        <div style={{ padding: '20px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <aside className="sidebar" style={{ position: 'fixed', top: 0, left: 0, width: '260px', height: '100vh', zIndex: 999, display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+        <div style={{ padding: '20px 16px', borderBottom: '1px solid var(--surface-200)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span className="logo-mark" style={{ fontSize: '13px', padding: '4px 8px' }}>
             CAD Marketplace
           </span>
-          <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px' }}>
+          <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--surface-600)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px' }}>
             <X size={20} />
           </button>
         </div>
@@ -120,11 +131,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             return (
               <Link key={href} href={href} onClick={() => setSidebarOpen(false)} style={{
                 display: 'flex', alignItems: 'center', gap: '12px',
-                padding: '11px 14px', borderRadius: '8px',
-                color: isActive ? 'var(--brand-900)' : '#94a3b8',
+                padding: '11px 14px', borderRadius: 'var(--radius)',
+                color: isActive ? 'var(--brand-900)' : 'var(--surface-700)',
                 fontWeight: isActive ? 700 : 500, fontSize: '15px', textDecoration: 'none',
-                background: isActive ? 'linear-gradient(135deg, var(--brand-500), var(--brand-600))' : 'transparent',
+                background: isActive ? 'var(--brand-500)' : 'transparent',
                 marginBottom: '4px',
+                boxShadow: isActive ? '0 4px 10px rgba(198, 241, 53, 0.35)' : 'none',
               }}>
                 <Icon size={18} />
                 {label}
@@ -133,10 +145,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           })}
         </nav>
 
-        <div style={{ padding: '14px 16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-          <div style={{ color: '#64748b', fontSize: '12px', marginBottom: '4px' }}>Signed in as</div>
-          <div style={{ color: '#94a3b8', fontSize: '13px', marginBottom: '12px', wordBreak: 'break-all' }}>{admin?.email}</div>
-          <button onClick={handleLogout} style={{ width: '100%', padding: '10px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: '8px', color: '#fca5a5', fontSize: '14px', fontWeight: 500, cursor: 'pointer' }}>
+        <div style={{ padding: '14px 16px', borderTop: '1px solid var(--surface-200)' }}>
+          <div style={{ color: 'var(--surface-600)', fontSize: '11px', fontWeight: 500, marginBottom: '2px' }}>Signed in as</div>
+          <div style={{ color: 'var(--surface-800)', fontSize: '13px', fontWeight: 600, marginBottom: '8px', wordBreak: 'break-all' }}>{admin?.email}</div>
+          <button
+            onClick={handleLogout}
+            style={{
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              color: '#dc2626',
+              fontSize: '13px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              textAlign: 'left',
+            }}
+          >
             Sign out
           </button>
         </div>

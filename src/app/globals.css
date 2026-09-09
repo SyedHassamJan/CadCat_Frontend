@@ -192,12 +192,17 @@ img, video { max-width: 100%; display: block; }
 
 .btn-secondary {
   background: var(--surface-0);
-  color: var(--text-primary);
-  border-color: var(--border-strong);
+  color: var(--surface-900);
+  border: 1px solid var(--surface-200);
+  border-radius: var(--radius);
+  transition: all var(--transition);
 }
 .btn-secondary:hover:not(:disabled) {
-  background: var(--surface-100);
-  border-color: var(--surface-300);
+  border-color: var(--brand-500);
+  transform: translateY(-2px);
+  background: var(--surface-0);
+  color: var(--surface-900);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
 }
 
 .btn-danger {
@@ -238,8 +243,14 @@ img, video { max-width: 100%; display: block; }
   min-height: 100vh;
 }
 
+.sidebar,
 .admin-sidebar {
-  background: var(--surface-900);
+  background-color: var(--surface-0);
+  background-image:
+    radial-gradient(circle at top left, rgba(198, 241, 53, 0.30), transparent 55%),
+    radial-gradient(circle at bottom left, rgba(198, 241, 53, 0.18), transparent 60%),
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.025) 0, rgba(0,0,0,0.025) 1px, transparent 1px, transparent 12px);
+  border-right: 1px solid var(--surface-200);
   padding: 0;
   position: fixed;
   top: 0;
@@ -259,7 +270,7 @@ img, video { max-width: 100%; display: block; }
 
 .sidebar-logo {
   padding: 20px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid var(--surface-200);
 }
 
 .sidebar-nav { padding: 12px 8px; flex: 1; }
@@ -270,7 +281,7 @@ img, video { max-width: 100%; display: block; }
   gap: 10px;
   padding: 9px 12px;
   border-radius: var(--radius);
-  color: #94a3b8;
+  color: var(--surface-700);
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
@@ -278,12 +289,15 @@ img, video { max-width: 100%; display: block; }
   margin-bottom: 2px;
 }
 .sidebar-link:hover {
-  background: rgba(255,255,255,0.06);
-  color: #f1f5f9;
+  background: rgba(0,0,0,0.04);
+  color: var(--surface-900);
 }
 .sidebar-link.active {
   background: var(--brand-500);
   color: var(--brand-900); /* near-black on lime */
+  font-weight: 700;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 10px rgba(198, 241, 53, 0.35);
 }
 
 /* ─── Stats Cards ─────────────────────────────────────────────────────────────── */

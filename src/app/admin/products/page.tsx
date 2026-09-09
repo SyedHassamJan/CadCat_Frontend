@@ -43,15 +43,10 @@ export default function AdminProductsPage() {
         </div>
         <Link
           href="/admin/products/new"
+          className="btn btn-primary"
           style={{
             padding: '10px 18px',
-            background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
-            color: '#fff',
-            borderRadius: '10px',
-            fontWeight: 600,
             fontSize: '14px',
-            textDecoration: 'none',
-            boxShadow: '0 4px 10px rgba(59,130,246,0.3)',
           }}
         >
           + New Product

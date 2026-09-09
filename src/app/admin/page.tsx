@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 import api from '@/lib/api';
 
 interface DashboardStats {
@@ -95,34 +96,22 @@ export default function AdminDashboardPage() {
 
       {/* Quick links */}
       <div style={{ marginTop: '36px' }}>
-        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: '16px' }}>
+        <h2 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--surface-900)', marginBottom: '16px' }}>
           Quick Actions
         </h2>
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          {[
-            { href: '/admin/products/new', label: '+ New Product', color: '#2563eb' },
-            { href: '/admin/categories', label: 'Manage Categories', color: '#7c3aed' },
-            { href: '/admin/tags', label: 'Manage Tags', color: '#0891b2' },
-            { href: '/admin/orders', label: 'View Orders', color: '#059669' },
-          ].map(({ href, label, color }) => (
-            <a
-              key={href}
-              href={href}
-              style={{
-                padding: '10px 18px',
-                background: color,
-                color: '#fff',
-                borderRadius: '10px',
-                fontWeight: 600,
-                fontSize: '14px',
-                textDecoration: 'none',
-                transition: 'opacity 0.15s',
-                boxShadow: `0 4px 10px ${color}40`,
-              }}
-            >
-              {label}
-            </a>
-          ))}
+          <Link href="/admin/products/new" className="btn btn-primary" style={{ padding: '10px 18px', fontSize: '14px' }}>
+            + New Product
+          </Link>
+          <Link href="/admin/categories" className="btn btn-secondary" style={{ padding: '10px 18px', fontSize: '14px' }}>
+            Manage Categories
+          </Link>
+          <Link href="/admin/tags" className="btn btn-secondary" style={{ padding: '10px 18px', fontSize: '14px' }}>
+            Manage Tags
+          </Link>
+          <Link href="/admin/orders" className="btn btn-secondary" style={{ padding: '10px 18px', fontSize: '14px' }}>
+            View Orders
+          </Link>
         </div>
       </div>
     </div>
