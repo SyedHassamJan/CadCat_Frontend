@@ -110,11 +110,12 @@ export default function NewProductPage() {
   return (
     <div className="animate-fade-in" style={{ maxWidth: '760px' }}>
       <div style={{ marginBottom: '24px' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
+        <div className="accent-label" style={{ marginBottom: '8px' }}>Catalogue</div>
+        <h1 style={{ fontSize: '28px', fontWeight: 800, color: 'var(--brand-900)', fontFamily: "'Outfit', sans-serif", letterSpacing: '-0.02em', marginBottom: '4px' }}>
           New Product
         </h1>
-        <p style={{ color: '#64748b', fontSize: '14px' }}>
-          Create a new CAD block product listing.
+        <p style={{ color: 'var(--surface-600)', fontSize: '14px' }}>
+          Upload and configure your CAD block or drawing for the marketplace.
         </p>
       </div>
 
@@ -420,17 +421,10 @@ export default function NewProductPage() {
             <button
               type="submit"
               disabled={createMutation.isPending}
+              className="btn btn-primary"
               style={{
                 padding: '10px 24px',
-                background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '10px',
-                fontWeight: 600,
                 fontSize: '14px',
-                cursor: createMutation.isPending ? 'not-allowed' : 'pointer',
-                opacity: createMutation.isPending ? 0.7 : 1,
-                boxShadow: '0 4px 10px rgba(59,130,246,0.3)',
               }}
             >
               {createMutation.isPending ? 'Creating…' : 'Create Product'}
@@ -438,15 +432,10 @@ export default function NewProductPage() {
             <button
               type="button"
               onClick={() => router.push('/admin/products')}
+              className="btn btn-secondary"
               style={{
                 padding: '10px 20px',
-                background: '#f1f5f9',
-                color: '#334155',
-                border: '1px solid #e2e8f0',
-                borderRadius: '10px',
-                fontWeight: 600,
                 fontSize: '14px',
-                cursor: 'pointer',
               }}
             >
               Cancel

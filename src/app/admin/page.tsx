@@ -17,7 +17,7 @@ function StatCard({
   label,
   value,
   sub,
-  color = '#3b82f6',
+  color = 'var(--brand-500)',
 }: {
   label: string;
   value: string | number;
@@ -28,28 +28,45 @@ function StatCard({
     <div
       style={{
         background: '#fff',
-        border: '1px solid #e2e8f0',
+        border: '1px solid var(--surface-200)',
         borderRadius: '14px',
         padding: '22px 24px',
         display: 'flex',
         flexDirection: 'column',
         gap: '6px',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+        transition: 'all 0.2s ease',
+        cursor: 'default',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = 'var(--brand-400)';
+        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.07)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = 'var(--surface-200)';
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.04)';
       }}
     >
-      <div style={{ fontSize: '13px', color: '#64748b', fontWeight: 500 }}>{label}</div>
+      <div style={{ fontSize: '11px', color: 'var(--surface-600)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{label}</div>
       <div
         style={{
-          fontSize: '30px',
+          fontSize: '32px',
           fontWeight: 800,
-          color: '#0f172a',
+          color: 'var(--brand-900)',
           fontFamily: "'Outfit', sans-serif",
           lineHeight: 1.1,
         }}
       >
         {value}
       </div>
-      {sub && <div style={{ fontSize: '12px', color: color, fontWeight: 600 }}>{sub}</div>}
+      {sub && (
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: color, fontWeight: 600, marginTop: '2px' }}>
+          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: color, display: 'inline-block' }} />
+          {sub}
+        </div>
+      )}
     </div>
   );
 }
@@ -64,10 +81,11 @@ export default function AdminDashboardPage() {
   return (
     <div className="animate-fade-in">
       <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
+        <div className="accent-label" style={{ marginBottom: '8px' }}>Admin Overview</div>
+        <h1 style={{ fontSize: '28px', fontWeight: 800, color: 'var(--brand-900)', fontFamily: "'Outfit', sans-serif", letterSpacing: '-0.02em', marginBottom: '4px' }}>
           Dashboard
         </h1>
-        <p style={{ color: '#64748b', fontSize: '14px' }}>
+        <p style={{ color: 'var(--surface-600)', fontSize: '14px' }}>
           Overview of your CAD Marketplace performance.
         </p>
       </div>
@@ -96,11 +114,9 @@ export default function AdminDashboardPage() {
 
       {/* Quick links */}
       <div style={{ marginTop: '36px' }}>
-        <h2 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--surface-900)', marginBottom: '16px' }}>
-          Quick Actions
-        </h2>
+        <div className="accent-label" style={{ marginBottom: '14px' }}>Quick Actions</div>
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          <Link href="/admin/products/new" className="btn btn-primary" style={{ padding: '10px 18px', fontSize: '14px' }}>
+          <Link href="/admin/products/new" className="btn btn-primary" style={{ padding: '10px 20px', fontSize: '14px' }}>
             + New Product
           </Link>
           <Link href="/admin/categories" className="btn btn-secondary" style={{ padding: '10px 18px', fontSize: '14px' }}>
